@@ -208,13 +208,13 @@
       if(!can||!hav) throw new Error('חסרים זמני שבת בתשובת השרת');
 
       const candles = new Date(can.date), havdalah = new Date(hav.date);
-      const satYmd = ymd(havdalah), sunYmd = ymd(add(havdalah,-6*1440));
-      const zq = `https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${sunYmd}&end=${satYmd}`;
+      const friYmd = ymd(add(havdalah,-1440)), endYmd = ymd(add(havdalah,6*1440));
+      const zq = `https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${friYmd}&end=${endYmd}`;
       const zr = await Promise.all([fetch(zq), fetch(zq+'&ue=on')]);
       const zj = await Promise.all(zr.map(r=>r.json()));
       const T = zj[0].times||{}, U = zj[1].times||{};
-      const days=[]; for(let i=0;i<7;i++) days.push(ymd(add(havdalah,(i-6)*1440)));
-      const week = days.slice(0,6), sunThu = days.slice(0,5), fri = days[5], sat = days[6];
+      const fri = friYmd, sat = ymd(havdalah), week = [], sunThu = [];
+      for(let i=1;i<=6;i++){ const d = ymd(add(havdalah, i*1440)); week.push(d); if(i<=5) sunThu.push(d); }
 
       const D = (o,k,d) => o[k] && o[k][d] ? new Date(o[k][d]) : null;
       const zman = d => { const a=D(T,'sunrise',d), b=D(T,'sunset',d); return (a&&b) ? (b-a)/43200000 : 1; };
@@ -255,7 +255,7 @@
 
       applySeason();
       saveFields(); fit();
-      say('הזמנים עודכנו לפי שיטת אור החיים. ימי חול מוצגים כטווח לאורך השבוע.');
+      say('הזמנים עודכנו לפי אור החיים. ימי חול = השבוע שאחרי השבת הקרובה, כטווח.');
     }catch(err){
       say('לא ניתן להתחבר ל‑Hebcal (' + err.message + '). ניתן למלא ידנית.');
     }
