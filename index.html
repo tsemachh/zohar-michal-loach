@@ -167,9 +167,9 @@
   const ymd  = d => new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:TZ}).format(d);
   const add  = (d,m) => new Date(d.getTime()+m*60000);
   const range = arr => {
-    const v = arr.filter(Boolean).map(x=>new Date(x)).sort((a,b)=>a-b);
+    const v = arr.filter(Boolean).map(x=>hhmm(new Date(x))).sort();
     if(!v.length) return null;
-    const a=hhmm(v[0]), b=hhmm(v[v.length-1]);
+    const a=v[0], b=v[v.length-1];
     return a===b ? a : `${a}–${b}`;
   };
   const rangeShift = (arr,m) => range(arr.filter(Boolean).map(x=>add(new Date(x),m)));
