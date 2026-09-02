@@ -98,7 +98,7 @@
         <h2 contenteditable data-k="h_erev">ערב שבת קודש</h2>
         <div class="row" id="rowEarly"><span class="lbl" contenteditable data-k="l_e0">מנחה מוקדמת וקבלת שבת <span class="sub">שעה קודם הדלקת נרות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_early">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_e1">הדלקת נרות <span class="sub">40 דק׳ קודם השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_candles">—</span></div>
-        <div class="row"><span class="lbl">שיר השירים <span class="sub" id="shirSub">בזמן הדלקת נרות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_shir">—</span></div>
+        <div class="row"><span class="lbl">שיר השירים <span class="sub" id="shirSub">5 דק׳ לאחר הדלקת נרות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_shir">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_e3">מנחה וקבלת שבת <span class="sub">20 דק׳ לאחר הדלקת נרות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_mincha">—</span></div>
       </section>
 
@@ -131,7 +131,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v4', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v5', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -188,10 +188,10 @@
     const sum = season==='summer';
     $('#btnSeason').textContent = sum ? 'שעון קיץ' : 'שעון חורף';
     $('#rowEarly').classList.toggle('hidden', !sum);
-    $('#shirSub').textContent = sum ? 'בזמן הדלקת נרות' : '5 דק׳ לאחר הדלקת נרות';
+    $('#shirSub').textContent = '5 דק׳ לאחר הדלקת נרות';
     setVal('s_minchaGed', sum ? '13:15' : '13:00');
     const c = getVal('e_candles');
-    if(/\d/.test(c)) setVal('e_shir', sum ? c : shiftHHMM(c,5));
+    if(/\d/.test(c)) setVal('e_shir', shiftHHMM(c,5));
     localStorage.setItem(LS.season, season);
     saveFields(); fit();
   }
