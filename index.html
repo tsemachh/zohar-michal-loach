@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=820">
 <title>לוח זמנים – בית הכנסת זוהר מיכל הי"ד</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -285,10 +285,7 @@
   }
   function stageScale(){
     const stage=$('#stage'), page=$('#page');
-    const s = Math.min(1, (document.documentElement.clientWidth - 24)/793.7);
-    if(s<1){ page.style.transform=`scale(${s})`; page.style.transformOrigin='top center';
-             stage.style.height = (296.9*3.7795*s + 40)+'px'; }
-    else { page.style.transform='none'; stage.style.height='auto'; }
+    page.style.transform='none'; stage.style.height='auto';
   }
   window.addEventListener('resize', ()=>{ stageScale(); fit(); });
   window.addEventListener('beforeprint', ()=>{ $('#page').style.transform='none'; fit(); });
