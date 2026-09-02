@@ -91,7 +91,7 @@
         <div class="row"><span class="lbl" contenteditable data-k="l_w1">שחרית מניין א׳ <span class="sub">ותיקין, 30 דק׳ קודם הנץ</span> <span class="netzp" data-k="w_netzp"></span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_netz">—</span></div>
         <div class="row fixed"><span class="lbl" contenteditable data-k="l_w2">שחרית מניין ב׳</span><span class="dots"></span><span class="tm" contenteditable data-k="w_shacharit2">07:00</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_w3">מנחה <span class="sub">20 דק׳ קודם השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_mincha">—</span></div>
-        <div class="row"><span class="lbl" contenteditable data-k="l_w4">ערבית <span class="sub">צאת הכוכבים, 20 דק׳ לאחר השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_arvit">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_w4">ערבית <span class="sub">צאת הכוכבים לפי אור החיים</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_arvit">—</span></div>
       </section>
 
       <section class="sec erev">
@@ -121,7 +121,7 @@
         <div class="row"><span class="lbl" contenteditable data-k="l_m3">רבנו תם <span class="sub">72 דקות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="m_rt">—</span></div>
       </section>
 
-      <div class="foot" contenteditable data-k="foot">הזמנים לירושלים · שבת שלום ומבורך</div>
+      <div class="foot" contenteditable data-k="foot">הזמנים לירושלים לפי לוח אור החיים · שבת שלום ומבורך</div>
 
     </div>
   </div>
@@ -131,7 +131,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v3', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v4', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -209,33 +209,41 @@
 
       const candles = new Date(can.date), havdalah = new Date(hav.date);
       const satYmd = ymd(havdalah), sunYmd = ymd(add(havdalah,-6*1440));
-      const z = await (await fetch(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${sunYmd}&end=${satYmd}`)).json();
-      const T = z.times||{};
+      const zq = `https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${sunYmd}&end=${satYmd}`;
+      const zr = await Promise.all([fetch(zq), fetch(zq+'&ue=on')]);
+      const zj = await Promise.all(zr.map(r=>r.json()));
+      const T = zj[0].times||{}, U = zj[1].times||{};
       const days=[]; for(let i=0;i<7;i++) days.push(ymd(add(havdalah,(i-6)*1440)));
-      const week = days.slice(0,6), sunThu = days.slice(0,5), sat = days[6];
+      const week = days.slice(0,6), sunThu = days.slice(0,5), fri = days[5], sat = days[6];
+
+      const D = (o,k,d) => o[k] && o[k][d] ? new Date(o[k][d]) : null;
+      const zman = d => { const a=D(T,'sunrise',d), b=D(T,'sunset',d); return (a&&b) ? (b-a)/43200000 : 1; };
+      const tzeitOH = d => { const v=D(U,'sunset',d); return v ? add(v, 14.5*zman(d)) : null; };
 
       const nzW = pick(T,'sunrise',week);
       setVal('w_netz',   rangeShift(nzW,-30));
       setVal('w_netzp',  '(נץ ' + range(nzW) + ')');
       setVal('w_mincha', rangeShift(pick(T,'sunset',sunThu), -20));
-      setVal('w_arvit',  rangeShift(pick(T,'sunset',sunThu),  20));
+      setVal('w_arvit',  range(sunThu.map(tzeitOH).filter(Boolean)));
 
       season = isIsraelDST(havdalah) ? 'summer' : 'winter';
-      setVal('e_candles', hhmm(candles));
-      setVal('e_early',   hhmm(add(candles,-60)));
-      setVal('e_mincha',  hhmm(add(candles, 20)));
+      const visFri = D(U,'sunset',fri), visSat = D(U,'sunset',sat);
+      const cnd = visFri ? add(visFri,-40) : candles;
+      setVal('e_candles', hhmm(cnd));
+      setVal('e_early',   hhmm(add(cnd,-60)));
+      setVal('e_mincha',  hhmm(add(cnd, 20)));
 
-      const g = k => T[k] && T[k][sat] ? hhmm(new Date(T[k][sat])) : null;
-      const nzS = T.sunrise && T.sunrise[sat] ? new Date(T.sunrise[sat]) : null;
+      const nzS = D(T,'sunrise',sat);
       if(nzS){ setVal('s_netz', hhmm(add(nzS,-40))); setVal('s_netzp', '(נץ '+hhmm(nzS)+')'); }
-      setVal('s_shmaGRA', g('sofZmanShma'));
-      setVal('s_mincha2', hhmm(add(candles,-20)));
-      setVal('s_shiur2',  hhmm(add(candles,-80)));
+      const shma = D(U,'sofZmanShma',sat);
+      setVal('s_shmaGRA', shma ? hhmm(shma) : null);
+      setVal('s_mincha2', hhmm(add(cnd,-20)));
+      setVal('s_shiur2',  hhmm(add(cnd,-80)));
 
-      setVal('m_tzeit', hhmm(havdalah));
-      setVal('m_arvit', hhmm(add(havdalah,-10)));
-      const rt = T.tzeit72min && T.tzeit72min[sat];
-      setVal('m_rt', rt ? hhmm(new Date(rt)) : (T.sunset&&T.sunset[sat] ? hhmm(add(new Date(T.sunset[sat]),72)) : null));
+      const tzS = visSat ? add(visSat,30) : havdalah;
+      setVal('m_tzeit', hhmm(tzS));
+      setVal('m_arvit', hhmm(add(tzS,-10)));
+      setVal('m_rt', visSat ? hhmm(add(visSat, 72.5*zman(sat))) : null);
 
       if(par) setVal('parasha', par.hebrew || par.title);
       try{
@@ -247,7 +255,7 @@
 
       applySeason();
       saveFields(); fit();
-      say('הזמנים עודכנו. זמני ימי חול מוצגים כטווח לאורך השבוע — ניתן לערוך ידנית.');
+      say('הזמנים עודכנו לפי שיטת אור החיים. ימי חול מוצגים כטווח לאורך השבוע.');
     }catch(err){
       say('לא ניתן להתחבר ל‑Hebcal (' + err.message + '). ניתן למלא ידנית.');
     }
