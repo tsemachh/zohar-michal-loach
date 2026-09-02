@@ -159,7 +159,7 @@
     }catch(e){}
   }
   document.addEventListener('input', e=>{ if(e.target.closest('[data-k]')){ saveFields(); fit(); }});
-  const nonik = t => (t||'').replace(/[\u0591-\u05C7]/g,'');
+  const nonik = t => (t||'').replace(/[\u0591-\u05BD\u05BF-\u05C7]/g,'');
   function setVal(k,v){ const el=document.querySelector(`[data-k="${k}"]`); if(el&&v) el.textContent=nonik(v); }
   function getVal(k){ const el=document.querySelector(`[data-k="${k}"]`); return el ? el.textContent.trim() : ''; }
 
