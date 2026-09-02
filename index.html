@@ -42,6 +42,7 @@
   .lbl{white-space:normal}
   .sub{font-size:4.1mm;color:#6b5b48}
   .netzp{font-size:4.1mm;font-weight:700;color:var(--orange);white-space:nowrap}
+  .ltr{direction:ltr;unicode-bidi:isolate}
   .dots{flex:1;border-bottom:0.3mm dotted var(--rule);margin:0 2.5mm;transform:translateY(-1.2mm)}
   .tm{direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-weight:700;font-size:5.5mm;color:var(--teal);width:36mm;flex:none;text-align:left;font-variant-numeric:tabular-nums}
   .row.fixed .tm{color:var(--ink)}
@@ -223,7 +224,8 @@
 
       const nzW = pick(T,'sunrise',week);
       setVal('w_netz',   rangeShift(nzW,-30));
-      setVal('w_netzp',  '(נץ ' + range(nzW) + ')');
+      const npEl = document.querySelector('[data-k="w_netzp"]');
+      if(npEl) npEl.innerHTML = '(נץ <span class="ltr">' + range(nzW) + '</span>)';
       setVal('w_mincha', rangeShift(pick(T,'sunset',sunThu), -20));
       setVal('w_arvit',  range(sunThu.map(tzeitOH).filter(Boolean)));
 
