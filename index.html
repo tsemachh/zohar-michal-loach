@@ -35,6 +35,7 @@
   .sec{margin-bottom:2mm}
   .sec:last-of-type{margin-bottom:0}
   .sec h2{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:6.1mm;color:#fff;background:var(--teal);display:block;margin:0 0 1.4mm;padding:0.5mm 4mm 0.9mm;border-radius:1mm;line-height:1.12}
+  .secdate{font-size:4.3mm;font-weight:500;opacity:.9}
   .sec.shabbat h2{background:var(--crimson)}
   .sec.motzash h2{background:#6B5527}
   .row{display:flex;align-items:baseline;padding:0.3mm 0;font-size:5.05mm;line-height:1.16}
@@ -82,7 +83,6 @@
         <div class="parasha" contenteditable data-k="parasha">פרשת השבוע</div>
         <div class="dates">
           <b contenteditable data-k="hebdate">תאריך עברי</b>
-          <span contenteditable data-k="gregdate">תאריך לועזי</span>
         </div>
       </div>
 
@@ -114,7 +114,7 @@
       </section>
 
       <section class="sec weekday">
-        <h2 contenteditable data-k="h_weekday">ימי חול · ראשון–שישי</h2>
+        <h2 contenteditable data-k="h_weekday">ימי חול · ראשון–שישי <span class="secdate" id="wDates"></span></h2>
         <div class="row"><span class="lbl" contenteditable data-k="l_w1">שחרית מניין א׳ <span class="sub">ותיקין, 30 דק׳ קודם הנץ</span> <span class="netzp" data-k="w_netzp"></span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_netz">—</span></div>
         <div class="row fixed"><span class="lbl" contenteditable data-k="l_w2">שחרית מניין ב׳</span><span class="dots"></span><span class="tm" contenteditable data-k="w_shacharit2">07:00</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_w3">מנחה <span class="sub">20 דק׳ קודם השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_mincha">—</span></div>
@@ -131,7 +131,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v5', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v6', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -159,7 +159,8 @@
     }catch(e){}
   }
   document.addEventListener('input', e=>{ if(e.target.closest('[data-k]')){ saveFields(); fit(); }});
-  function setVal(k,v){ const el=document.querySelector(`[data-k="${k}"]`); if(el&&v) el.textContent=v; }
+  const nonik = t => (t||'').replace(/[\u0591-\u05C7]/g,'');
+  function setVal(k,v){ const el=document.querySelector(`[data-k="${k}"]`); if(el&&v) el.textContent=nonik(v); }
   function getVal(k){ const el=document.querySelector(`[data-k="${k}"]`); return el ? el.textContent.trim() : ''; }
 
   const TZ='Asia/Jerusalem';
@@ -167,10 +168,10 @@
   const ymd  = d => new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:TZ}).format(d);
   const add  = (d,m) => new Date(d.getTime()+m*60000);
   const range = arr => {
-    const v = arr.filter(Boolean).map(x=>hhmm(new Date(x))).sort();
+    const v = arr.filter(Boolean).map(x=>hhmm(new Date(x)));
     if(!v.length) return null;
     const a=v[0], b=v[v.length-1];
-    return a===b ? a : `${a}–${b}`;
+    return a===b ? a : `${a} → ${b}`;
   };
   const rangeShift = (arr,m) => range(arr.filter(Boolean).map(x=>add(new Date(x),m)));
   const pick = (times,key,dates) => dates.map(d => times[key] && times[key][d]).filter(Boolean);
@@ -247,11 +248,16 @@
 
       if(par) setVal('parasha', par.hebrew || par.title);
       try{
-        const cv = await (await fetch(`https://www.hebcal.com/converter?cfg=json&date=${sat}&g2h=1&strict=1&lg=h`)).json();
+        const cv = await (await fetch(`https://www.hebcal.com/converter?cfg=json&date=${sat}&g2h=1&strict=1&lg=he`)).json();
         if(cv.hebrew) setVal('hebdate', cv.hebrew);
       }catch(e){}
-      const gf = d => new Intl.DateTimeFormat('he-IL',{day:'numeric',month:'numeric',timeZone:TZ}).format(d);
-      setVal('gregdate', `${gf(candles)}–${gf(havdalah)}.${new Intl.DateTimeFormat('he-IL',{year:'numeric',timeZone:TZ}).format(havdalah)}`);
+
+      try{
+        const cj = await Promise.all([week[0], week[5]].map(d=>fetch(`https://www.hebcal.com/converter?cfg=json&date=${d}&g2h=1&strict=1&lg=he`).then(r=>r.json())));
+        const P = h => { const t=(h||'').split(/\s+/); return {d:t[0]||'', m:t[1]||''}; };
+        const a=P(cj[0].hebrew), b=P(cj[1].hebrew), el=document.getElementById('wDates');
+        if(el && a.d && b.d) el.textContent = nonik((a.m===b.m) ? `· ${a.d}–${b.d} ${a.m}` : `· ${a.d} ${a.m} – ${b.d} ${b.m}`);
+      }catch(e){}
 
       applySeason();
       saveFields(); fit();
