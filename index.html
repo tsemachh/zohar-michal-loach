@@ -238,8 +238,9 @@
       if(nzS){ setVal('s_netz', hhmm(add(nzS,-40))); setVal('s_netzp', '(נץ '+hhmm(nzS)+')'); }
       const shma = D(U,'sofZmanShma',sat);
       setVal('s_shmaGRA', shma ? hhmm(shma) : null);
-      setVal('s_mincha2', hhmm(add(cnd,-20)));
-      setVal('s_shiur2',  hhmm(add(cnd,-80)));
+      const mk = new Date(Math.round(add(cnd,-20).getTime()/900000)*900000);
+      setVal('s_mincha2', hhmm(mk));
+      setVal('s_shiur2',  hhmm(add(mk,-60)));
 
       const tzS = visSat ? add(visSat,30) : havdalah;
       setVal('m_tzeit', hhmm(tzS));
