@@ -24,30 +24,30 @@
 
   #stage{padding:18px 0 40px;display:flex;justify-content:center}
   .page{position:relative;width:210mm;height:296.9mm;background-color:#E9E1D2;background-image:var(--bg);background-size:100% 100%;background-repeat:no-repeat;box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  .content{position:absolute;top:25.2%;bottom:8.6%;right:13.2%;left:13.2%;overflow:hidden}
+  .content{position:absolute;top:24.2%;bottom:7.4%;right:12.6%;left:12.6%;overflow:hidden}
   #fit{transform-origin:top center}
 
-  .head{display:flex;align-items:baseline;justify-content:space-between;gap:4mm;border-bottom:0.6mm solid var(--teal);padding-bottom:1.8mm;margin-bottom:4.4mm}
-  .parasha{font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:7.4mm;line-height:1;color:var(--crimson)}
-  .dates{display:flex;align-items:baseline;gap:3.5mm;text-align:left;font-size:4mm;line-height:1.2;color:#57493a;white-space:nowrap}
-  .dates b{font-family:'Frank Ruhl Libre',serif;font-size:4.8mm;font-weight:700;color:var(--teal)}
+  .head{display:flex;align-items:baseline;justify-content:space-between;gap:4mm;border-bottom:0.6mm solid var(--teal);padding-bottom:1.4mm;margin-bottom:2.6mm}
+  .parasha{font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:7.9mm;line-height:1;color:var(--crimson)}
+  .dates{display:flex;align-items:baseline;gap:3.5mm;text-align:left;font-size:4.4mm;line-height:1.2;color:#57493a;white-space:nowrap}
+  .dates b{font-family:'Frank Ruhl Libre',serif;font-size:5.2mm;font-weight:700;color:var(--teal)}
 
-  .sec{margin-bottom:5mm}
+  .sec{margin-bottom:2mm}
   .sec:last-of-type{margin-bottom:0}
-  .sec h2{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:5.5mm;color:#fff;background:var(--teal);display:block;margin:0 0 2.4mm;padding:1mm 4mm 1.4mm;border-radius:1mm;line-height:1.15}
+  .sec h2{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:6.1mm;color:#fff;background:var(--teal);display:block;margin:0 0 1.4mm;padding:0.5mm 4mm 0.9mm;border-radius:1mm;line-height:1.12}
   .sec.shabbat h2{background:var(--crimson)}
   .sec.motzash h2{background:#6B5527}
-  .row{display:flex;align-items:baseline;padding:1mm 0;font-size:4.5mm;line-height:1.25}
-  .lbl{white-space:nowrap}
-  .sub{font-size:3.7mm;color:#6b5b48}
-  .netzp{font-size:3.7mm;font-weight:700;color:var(--orange);white-space:nowrap}
+  .row{display:flex;align-items:baseline;padding:0.3mm 0;font-size:5.05mm;line-height:1.16}
+  .lbl{white-space:normal}
+  .sub{font-size:4.1mm;color:#6b5b48}
+  .netzp{font-size:4.1mm;font-weight:700;color:var(--orange);white-space:nowrap}
   .dots{flex:1;border-bottom:0.3mm dotted var(--rule);margin:0 2.5mm;transform:translateY(-1.2mm)}
-  .tm{direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-weight:700;font-size:4.9mm;color:var(--teal);width:33mm;flex:none;text-align:left;font-variant-numeric:tabular-nums}
+  .tm{direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-weight:700;font-size:5.5mm;color:var(--teal);width:36mm;flex:none;text-align:left;font-variant-numeric:tabular-nums}
   .row.fixed .tm{color:var(--ink)}
-  .note{display:block;font-size:4.1mm;line-height:1.3;padding:1.1mm 0 0.5mm;color:#3d3021}
+  .note{display:block;font-size:4.6mm;line-height:1.22;padding:0.5mm 0 0.3mm;color:#3d3021}
   .note b{color:var(--crimson);font-weight:700}
   .note .when{color:var(--teal);font-weight:700}
-  .foot{text-align:center;margin-top:4mm;padding-top:1.5mm;border-top:0.4mm solid var(--rule);font-family:'Frank Ruhl Libre',serif;font-size:4.6mm;font-weight:700;color:#6b5b48}
+  .foot{text-align:center;margin-top:1.8mm;padding-top:1.2mm;border-top:0.4mm solid var(--rule);font-family:'Frank Ruhl Libre',serif;font-size:5.1mm;font-weight:700;color:#6b5b48}
   [contenteditable]:focus{outline:1.5px dashed var(--orange);outline-offset:2px;background:rgba(224,132,43,.10)}
   .hidden{display:none!important}
 
@@ -110,7 +110,7 @@
         <div class="row fixed"><span class="lbl" contenteditable data-k="l_s4">מנחה גדולה</span><span class="dots"></span><span class="tm" contenteditable data-k="s_minchaGed">13:15</span></div>
         <div class="note" contenteditable data-k="s_shiur"><b>שיעור מפי הרב בן דהן שליט״א במסכת שבת</b> <span class="when">— מיד לאחר מנחה גדולה</span></div>
         <div class="note" contenteditable data-k="s_tehilim">תהילים לילדים <span class="when">— לאחר מנחה גדולה, במקביל לשיעור</span>, בחלוקת ממתקים ופרסים</div>
-        <div class="row"><span class="lbl" contenteditable data-k="l_s7">שיעור מפי כבוד רב בית הכנסת הרב מרציאנו שליט״א <span class="sub">שעה קודם מנחה קטנה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_shiur2">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_s7">שיעור מפי רב ביהכ״נ הרב מרציאנו שליט״א <span class="sub">שעה קודם מנחה קטנה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_shiur2">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_s6">מנחה קטנה <span class="sub">ולאחריה סעודה שלישית ודברי תורה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_mincha2">—</span></div>
       </section>
 
