@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>לוח זמנים – בית הכנסת זוהר מיכל הי"ד</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#0F6B68;
+    --orange:#E0842B;
+    --crimson:#C9372E;
+    --ink:#2B2118;
+    --rule:rgba(43,33,24,.34);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:#3a3733;
+    font-family:'Assistant',system-ui,'Segoe UI',Arial,sans-serif;
+    color:var(--ink);
+    -webkit-text-size-adjust:100%;
+  }
+
+  /* ---------- toolbar ---------- */
+  .toolbar{
+    position:sticky;top:0;z-index:50;
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    padding:10px 14px;background:#211f1c;border-bottom:1px solid #4a453e;
+  }
+  .toolbar button,.toolbar label.filebtn{
+    font-family:inherit;font-size:14px;font-weight:600;
+    background:#efe8da;color:#221c14;border:1px solid #cfc3ab;border-radius:4px;
+    padding:7px 12px;cursor:pointer;
+  }
+  .toolbar button:hover,.toolbar label.filebtn:hover{background:#fff}
+  .toolbar button:focus-visible,.toolbar label.filebtn:focus-within{outline:2px solid var(--orange);outline-offset:2px}
+  .toolbar button.primary{background:var(--teal);border-color:#0b504e;color:#fff}
+  .toolbar button.season{background:#3d3a35;color:#f2ead9;border-color:#5b554b}
+  .toolbar .status{color:#cfc6b4;font-size:13px;margin-inline-start:auto;max-width:46ch}
+  .toolbar input[type=file]{display:none}
+
+  /* ---------- page ---------- */
+  #stage{padding:18px 0 40px;display:flex;justify-content:center}
+  .page{
+    position:relative;
+    width:210mm;height:296.9mm;
+    background-color:#E9E1D2;
+    background-image:var(--bg);
+    background-size:100% 100%;
+    background-repeat:no-repeat;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);
+    overflow:hidden;
+    print-color-adjust:exact;-webkit-print-color-adjust:exact;
+  }
+  .content{position:absolute;top:24%;bottom:11%;right:11%;left:11%;overflow:hidden}
+  #fit{transform-origin:top right}
+
+  /* ---------- header block ---------- */
+  .head{display:flex;align-items:flex-end;justify-content:space-between;gap:4mm;
+        border-bottom:0.5mm solid var(--teal);padding-bottom:1.6mm;margin-bottom:3.4mm}
+  .parasha{font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:7.2mm;line-height:1;color:var(--crimson)}
+  .dates{text-align:left;font-size:3.5mm;line-height:1.45;color:#57493a}
+  .dates b{display:block;font-family:'Frank Ruhl Libre',serif;font-size:4.2mm;font-weight:700;color:var(--teal)}
+
+  /* ---------- sections ---------- */
+  .sec{margin-bottom:3.2mm}
+  .sec h2{
+    font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:4.9mm;
+    color:#fff;background:var(--teal);display:inline-block;
+    margin:0 0 1.6mm;padding:0.7mm 3.5mm 1mm;border-radius:0.8mm;line-height:1.15;
+  }
+  .sec.shabbat h2{background:var(--crimson)}
+  .sec.motzash h2{background:#5b4a2f}
+  .row{display:flex;align-items:baseline;padding:0.55mm 0;font-size:3.75mm;line-height:1.35}
+  .lbl{white-space:nowrap}
+  .sub{font-size:3.1mm;color:#6b5b48}
+  .dots{flex:1;border-bottom:0.3mm dotted var(--rule);margin:0 2mm;transform:translateY(-1.1mm)}
+  .tm{direction:ltr;unicode-bidi:isolate;font-weight:700;font-size:4mm;color:var(--teal);min-width:14mm;text-align:left;font-variant-numeric:tabular-nums}
+  .row.fixed .tm{color:var(--ink)}
+  .note{display:block;font-size:3.5mm;line-height:1.4;padding:0.9mm 0 0.4mm;color:#3d3021}
+  .note b{color:var(--crimson);font-weight:700}
+  .note .when{color:var(--teal);font-weight:700}
+  .foot{position:absolute;bottom:0;right:0;left:0;text-align:center;font-size:3.2mm;color:#6b5b48}
+  [contenteditable]:focus{outline:1.5px dashed var(--orange);outline-offset:2px;background:rgba(224,132,43,.10)}
+  .hidden{display:none!important}
+
+  /* ---------- print ---------- */
+  @page{size:A4 portrait;margin:0}
+  @media print{
+    body{background:none}
+    .no-print{display:none!important}
+    #stage{padding:0;display:block}
+    .page{width:210mm;height:296.9mm;box-shadow:none;margin:0;page-break-after:avoid;break-inside:avoid}
+    html,body{width:210mm}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="toolbar no-print">
+  <button class="primary" id="btnUpdate">עדכן זמנים לשבוע הקרוב</button>
+  <button class="season" id="btnSeason">שעון קיץ</button>
+  <label class="filebtn">בחר תמונת רקע<input type="file" id="bgInput" accept="image/*"></label>
+  <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
+  <button id="btnReset">איפוס עריכות</button>
+  <span class="status" id="status">כל שעה וכל כותרת ניתנות לעריכה בלחיצה ישירה.</span>
+</div>
+
+<div id="stage">
+<div class="page" id="page">
+  <div class="content">
+    <div id="fit">
+
+      <div class="head">
+        <div class="parasha" contenteditable data-k="parasha">פרשת השבוע</div>
+        <div class="dates">
+          <b contenteditable data-k="hebdate">תאריך עברי</b>
+          <span contenteditable data-k="gregdate">תאריך לועזי</span>
+        </div>
+      </div>
+
+      <section class="sec weekday">
+        <h2 contenteditable data-k="h_weekday">ימי חול · ראשון – שישי</h2>
+        <div class="row"><span class="lbl" contenteditable data-k="l_w1">שחרית מניין א׳ <span class="sub">כוותיקין, בנץ החמה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_netz">—</span></div>
+        <div class="row fixed"><span class="lbl" contenteditable data-k="l_w2">שחרית מניין ב׳</span><span class="dots"></span><span class="tm" contenteditable data-k="w_shacharit2">07:00</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_w3">מנחה <span class="sub">20 דק׳ קודם השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_mincha">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_w4">ערבית <span class="sub">בצאת הכוכבים</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_arvit">—</span></div>
+      </section>
+
+      <section class="sec erev">
+        <h2 contenteditable data-k="h_erev">ערב שבת קודש</h2>
+        <div class="row" id="rowEarly"><span class="lbl" contenteditable data-k="l_e0">מנחה מוקדמת וקבלת שבת <span class="sub">שעה קודם הדלקת נרות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_early">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_e1">הדלקת נרות <span class="sub">40 דק׳ קודם השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_candles">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_e2">שיר השירים <span class="sub">בזמן הדלקת נרות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_shir">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_e3">מנחה וקבלת שבת <span class="sub">20 דק׳ לאחר ההדלקה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="e_mincha">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_e4">שקיעת החמה</span><span class="dots"></span><span class="tm" contenteditable data-k="e_sunset">—</span></div>
+      </section>
+
+      <section class="sec shabbat">
+        <h2 contenteditable data-k="h_shabbat">יום שבת קודש</h2>
+        <div class="row"><span class="lbl" contenteditable data-k="l_s1">שחרית מניין א׳ <span class="sub">כוותיקין, בנץ החמה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_netz">—</span></div>
+        <div class="row fixed"><span class="lbl" contenteditable data-k="l_s2">קרבנות ושחרית מניין ב׳</span><span class="dots"></span><span class="tm" contenteditable data-k="s_shacharit2">07:30</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_s3">סוף זמן קריאת שמע <span class="sub">מג״א</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_shmaMGA">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_s4">סוף זמן קריאת שמע <span class="sub">גר״א</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_shmaGRA">—</span></div>
+        <div class="row fixed"><span class="lbl" contenteditable data-k="l_s5">מנחה גדולה</span><span class="dots"></span><span class="tm" contenteditable data-k="s_minchaGed">13:15</span></div>
+        <div class="note" contenteditable data-k="s_shiur"><b>שיעור מפי מורנו ורבנו הרב בן דהן שליט״א במסכת שבת</b> <span class="when">— מיד לאחר מנחה גדולה</span></div>
+        <div class="note" contenteditable data-k="s_tehilim">תהילים לילדים <span class="when">— מיד לאחר השיעור</span>, בחלוקת ממתקים ופרסים</div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_s6">מנחה שנייה <span class="sub">ולאחריה סעודה שלישית ודברי תורה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_mincha2">—</span></div>
+      </section>
+
+      <section class="sec motzash">
+        <h2 contenteditable data-k="h_motzash">מוצאי שבת קודש</h2>
+        <div class="row"><span class="lbl" contenteditable data-k="l_m1">ערבית <span class="sub">10 דק׳ קודם צאת השבת</span></span><span class="dots"></span><span class="tm" contenteditable data-k="m_arvit">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_m2">צאת השבת והבדלה</span><span class="dots"></span><span class="tm" contenteditable data-k="m_tzeit">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_m3">רבנו תם <span class="sub">72 דקות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="m_rt">—</span></div>
+      </section>
+
+      <div class="foot" contenteditable data-k="foot">הזמנים לירושלים · שבת שלום ומבורך</div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(function(){
+  const GEO = 281184; // ירושלים
+  const LS = {fields:'zm_fields_v1', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const $  = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const statusEl = $('#status');
+  const say = t => statusEl.textContent = t;
+
+  /* ---------- רקע ---------- */
+  const DEFAULT_BG = "url('bg.jpg')";
+  function setBg(v){ $('#page').style.setProperty('--bg', v); }
+  setBg(localStorage.getItem(LS.bg) ? `url('${localStorage.getItem(LS.bg)}')` : DEFAULT_BG);
+
+  $('#bgInput').addEventListener('change', e=>{
+    const f = e.target.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => { try{ localStorage.setItem(LS.bg, r.result); }catch(err){ say('התמונה גדולה מדי לשמירה מקומית; היא מוצגת אך לא נשמרה.'); }
+      setBg(`url('${r.result}')`); fit(); };
+    r.readAsDataURL(f);
+  });
+
+  /* ---------- שמירת עריכות ---------- */
+  function saveFields(){
+    const o={}; $$('[data-k]').forEach(el=> o[el.dataset.k]=el.innerHTML);
+    localStorage.setItem(LS.fields, JSON.stringify(o));
+  }
+  function loadFields(){
+    try{
+      const o = JSON.parse(localStorage.getItem(LS.fields)||'{}');
+      $$('[data-k]').forEach(el=>{ if(o[el.dataset.k]!=null) el.innerHTML=o[el.dataset.k]; });
+    }catch(e){}
+  }
+  document.addEventListener('input', e=>{ if(e.target.closest('[data-k]')){ saveFields(); fit(); }});
+  function setVal(k,v){ const el=document.querySelector(`[data-k="${k}"]`); if(el&&v) el.textContent=v; }
+
+  /* ---------- קיץ / חורף ---------- */
+  function isIsraelDST(d){
+    const s = new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Jerusalem',timeZoneName:'shortOffset'}).format(d||new Date());
+    return /\+3/.test(s);
+  }
+  let season = localStorage.getItem(LS.season) || (isIsraelDST() ? 'summer' : 'winter');
+  function applySeason(){
+    const sum = season==='summer';
+    $('#btnSeason').textContent = sum ? 'שעון קיץ' : 'שעון חורף';
+    $('#rowEarly').classList.toggle('hidden', !sum);
+    setVal('s_minchaGed', sum ? '13:15' : '13:00');
+    localStorage.setItem(LS.season, season);
+    saveFields(); fit();
+  }
+  $('#btnSeason').addEventListener('click', ()=>{ season = season==='summer'?'winter':'summer'; applySeason(); });
+
+  /* ---------- עזרי זמן ---------- */
+  const TZ='Asia/Jerusalem';
+  const hhmm = d => new Intl.DateTimeFormat('he-IL',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:TZ}).format(d);
+  const ymd  = d => new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:TZ}).format(d);
+  const add  = (d,m) => new Date(d.getTime()+m*60000);
+  const range = arr => {
+    const v = arr.filter(Boolean).map(x=>new Date(x)).sort((a,b)=>a-b);
+    if(!v.length) return null;
+    const a=hhmm(v[0]), b=hhmm(v[v.length-1]);
+    return a===b ? a : `${a}–${b}`;
+  };
+  const rangeShift = (arr,m) => range(arr.filter(Boolean).map(x=>add(new Date(x),m)));
+  const pick = (times,key,dates) => dates.map(d => times[key] && times[key][d]).filter(Boolean);
+
+  /* ---------- עדכון מ‑Hebcal ---------- */
+  async function update(){
+    say('מתעדכן מ‑Hebcal…');
+    try{
+      const sh = await (await fetch(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${GEO}&b=40&M=on&lg=he`)).json();
+      const items = sh.items||[];
+      const par = items.find(i=>i.category==='parashat');
+      const can = items.find(i=>i.category==='candles');
+      const hav = items.find(i=>i.category==='havdalah');
+      if(!can||!hav) throw new Error('חסרים זמני שבת בתשובת השרת');
+
+      const candles = new Date(can.date);
+      const havdalah = new Date(hav.date);
+      const satYmd = ymd(havdalah);
+      const sunYmd = ymd(add(havdalah,-6*1440));
+
+      const z = await (await fetch(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${sunYmd}&end=${satYmd}`)).json();
+      const T = z.times||{};
+      const days = []; for(let i=0;i<7;i++) days.push(ymd(add(havdalah,(i-6)*1440)));
+      const week = days.slice(0,6);      // ראשון–שישי
+      const sunThu = days.slice(0,5);    // ראשון–חמישי
+      const sat = days[6];
+
+      /* ימי חול */
+      setVal('w_netz',   range(pick(T,'sunrise',week)));
+      setVal('w_mincha', rangeShift(pick(T,'sunset',sunThu), -20));
+      const tzKey = T.tzeit7083deg ? 'tzeit7083deg' : (T.tzeit85deg ? 'tzeit85deg' : null);
+      setVal('w_arvit',  tzKey ? range(pick(T,tzKey,sunThu)) : rangeShift(pick(T,'sunset',sunThu), 20));
+
+      /* ערב שבת */
+      setVal('e_candles', hhmm(candles));
+      setVal('e_shir',    hhmm(candles));
+      setVal('e_early',   hhmm(add(candles,-60)));
+      setVal('e_mincha',  hhmm(add(candles, 20)));
+      const friSunset = T.sunset && T.sunset[days[5]];
+      if(friSunset) setVal('e_sunset', hhmm(new Date(friSunset)));
+
+      /* שבת */
+      const g = k => T[k] && T[k][sat] ? hhmm(new Date(T[k][sat])) : null;
+      setVal('s_netz',     g('sunrise'));
+      setVal('s_shmaMGA',  g('sofZmanShmaMGA'));
+      setVal('s_shmaGRA',  g('sofZmanShma'));
+      setVal('s_mincha2',  hhmm(add(candles,-20)));
+
+      /* מוצאי שבת */
+      setVal('m_tzeit', hhmm(havdalah));
+      setVal('m_arvit', hhmm(add(havdalah,-10)));
+      const rt = T.tzeit72min && T.tzeit72min[sat];
+      setVal('m_rt', rt ? hhmm(new Date(rt)) : hhmm(add(new Date(T.sunset[sat]),72)));
+
+      /* כותרות תאריך */
+      if(par) setVal('parasha', par.hebrew || par.title);
+      try{
+        const cv = await (await fetch(`https://www.hebcal.com/converter?cfg=json&date=${sat}&g2h=1&strict=1&lg=h`)).json();
+        if(cv.hebrew) setVal('hebdate', cv.hebrew);
+      }catch(e){}
+      const dFri = new Date(candles), dSat = havdalah;
+      const gf = d => new Intl.DateTimeFormat('he-IL',{day:'numeric',month:'numeric',timeZone:TZ}).format(d);
+      setVal('gregdate', `${gf(dFri)}–${gf(dSat)}.${new Intl.DateTimeFormat('he-IL',{year:'numeric',timeZone:TZ}).format(dSat)}`);
+
+      /* התאמת עונה אוטומטית לשבת הקרובה */
+      season = isIsraelDST(havdalah) ? 'summer' : 'winter';
+      applySeason();
+
+      saveFields(); fit();
+      say('הזמנים עודכנו. זמני ימי חול מוצגים כטווח לאורך השבוע — ניתן לערוך ידנית.');
+    }catch(err){
+      say('לא ניתן היה להתחבר ל‑Hebcal (' + err.message + '). ניתן למלא את הזמנים ידנית.');
+    }
+  }
+  $('#btnUpdate').addEventListener('click', update);
+
+  /* ---------- הדפסה, איפוס, התאמה לעמוד ---------- */
+  $('#btnPrint').addEventListener('click', ()=>{ fit(); window.print(); });
+  $('#btnReset').addEventListener('click', ()=>{
+    if(!confirm('לאפס את כל העריכות ולחזור ללוח הריק?')) return;
+    localStorage.removeItem(LS.fields); location.reload();
+  });
+
+  function fit(){
+    const box = $('.content'), inner = $('#fit');
+    inner.style.transform='none';
+    const s = Math.min(1, box.clientHeight / inner.scrollHeight);
+    inner.style.transform = `scale(${s})`;
+  }
+  function stageScale(){
+    const stage=$('#stage'), page=$('#page');
+    const pw = page.getBoundingClientRect().width / (page.style.zoom||1);
+    const avail = document.documentElement.clientWidth - 24;
+    const s = Math.min(1, avail/793.7);
+    if(s<1){ page.style.transform=`scale(${s})`; page.style.transformOrigin='top center';
+             stage.style.height = (296.9*3.7795*s + 40)+'px'; }
+    else { page.style.transform='none'; stage.style.height='auto'; }
+  }
+  window.addEventListener('resize', ()=>{ stageScale(); fit(); });
+  window.addEventListener('beforeprint', ()=>{ $('#page').style.transform='none'; fit(); });
+  window.addEventListener('afterprint', stageScale);
+
+  loadFields(); applySeason(); stageScale(); fit();
+  document.fonts && document.fonts.ready.then(()=>{ stageScale(); fit(); });
+})();
+</script>
+</body>
+</html>
