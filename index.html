@@ -24,7 +24,7 @@
 
   #stage{padding:18px 0 40px;display:flex;justify-content:center}
   .page{position:relative;width:210mm;height:296.9mm;background-color:#E9E1D2;background-image:var(--bg);background-size:100% 100%;background-repeat:no-repeat;box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  .content{position:absolute;top:24.2%;bottom:7.4%;right:12.6%;left:12.6%;overflow:hidden}
+  .content{position:absolute;top:19.4%;bottom:7.4%;right:12.6%;left:12.6%;overflow:hidden}
   #fit{transform-origin:top center}
 
   .head{display:flex;align-items:baseline;justify-content:space-between;gap:4mm;border-bottom:0.6mm solid var(--teal);padding-bottom:1.4mm;margin-bottom:2.6mm}
@@ -32,13 +32,13 @@
   .dates{display:flex;align-items:baseline;gap:3.5mm;text-align:left;font-size:4.4mm;line-height:1.2;color:#57493a;white-space:nowrap}
   .dates b{font-family:'Frank Ruhl Libre',serif;font-size:5.2mm;font-weight:700;color:var(--teal)}
 
-  .sec{margin-bottom:2mm}
+  .sec{margin-bottom:2.6mm}
   .sec:last-of-type{margin-bottom:0}
   .sec h2{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:6.1mm;color:#fff;background:var(--teal);display:block;margin:0 0 1.4mm;padding:0.5mm 4mm 0.9mm;border-radius:1mm;line-height:1.12}
   .secdate{font-size:4.3mm;font-weight:500;opacity:.9}
   .sec.shabbat h2{background:var(--crimson)}
   .sec.motzash h2{background:#6B5527}
-  .row{display:flex;align-items:baseline;padding:0.3mm 0;font-size:5.05mm;line-height:1.16}
+  .row{display:flex;align-items:baseline;padding:0.6mm 0;font-size:5.05mm;line-height:1.16}
   .lbl{white-space:normal}
   .sub{font-size:4.1mm;color:#6b5b48}
   .netzp{font-size:4.1mm;font-weight:700;color:var(--orange);white-space:nowrap}
@@ -80,7 +80,7 @@
     <div id="fit">
 
       <div class="head">
-        <div class="parasha" contenteditable data-k="parasha">פרשת השבוע</div>
+        <div class="parasha" contenteditable data-k="parasha">לוח זמנים לפרשת השבוע</div>
         <div class="dates">
           <b contenteditable data-k="hebdate">תאריך עברי</b>
         </div>
@@ -131,7 +131,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v6', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v7', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -247,7 +247,7 @@
       setVal('m_arvit', hhmm(add(tzS,-10)));
       setVal('m_rt', visSat ? hhmm(add(visSat, 72.5*zman(sat))) : null);
 
-      if(par) setVal('parasha', par.hebrew || par.title);
+      if(par) setVal('parasha', 'לוח זמנים ל' + (par.hebrew || par.title));
       try{
         const cv = await (await fetch(`https://www.hebcal.com/converter?cfg=json&date=${sat}&g2h=1&strict=1&lg=he`)).json();
         if(cv.hebrew) setVal('hebdate', cv.hebrew);
