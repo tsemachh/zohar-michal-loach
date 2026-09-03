@@ -106,9 +106,9 @@
         <div class="row fixed"><span class="lbl" contenteditable data-k="l_s4">מנחה גדולה</span><span class="dots"></span><span class="tm" contenteditable data-k="s_minchaGed">13:15</span></div>
         <div class="note" contenteditable data-k="s_shiur"><b>שיעור מפי הרב בן דהן שליט״א במסכת שבת</b> <span class="when">— מיד לאחר מנחה גדולה</span></div>
         <div class="note" contenteditable data-k="s_tehilim">תהילים לילדים <span class="when">— לאחר מנחה גדולה, במקביל לשיעור</span>, בחלוקת ממתקים ופרסים</div>
-        <div class="row"><span class="lbl" contenteditable data-k="l_s8">סעודה שלישית <span class="sub">חצי שעה לאחר מנחה גדולה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_seuda">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_s7">שיעור מפי רב ביהכ״נ הרב מרציאנו שליט״א <span class="sub">שעה קודם מנחה קטנה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_shiur2">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_s6">מנחה קטנה <span class="sub">ולאחריה דברי תורה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_mincha2">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_s8">סעודה שלישית <span class="sub">חצי שעה לאחר מנחה קטנה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_seuda">—</span></div>
       </section>
 
       <section class="sec motzash">
@@ -139,7 +139,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v10', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v11', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -199,7 +199,6 @@
     $('#rowEarly').classList.toggle('hidden', !sum);
     $('#shirSub').textContent = '5 דק׳ לאחר הדלקת נרות';
     setVal('s_minchaGed', sum ? '13:15' : '13:00');
-    setVal('s_seuda', shiftHHMM(sum ? '13:15' : '13:00', 30));
     const c = getVal('e_candles');
     if(/\d/.test(c)) setVal('e_shir', shiftHHMM(c,5));
     localStorage.setItem(LS.season, season);
@@ -251,6 +250,7 @@
       const mk = new Date(Math.round(add(cnd,-20).getTime()/900000)*900000);
       setVal('s_mincha2', hhmm(mk));
       setVal('s_shiur2',  hhmm(add(mk,-60)));
+      setVal('s_seuda',   hhmm(add(mk, 30)));
 
       const tzS = visSat ? add(visSat,30) : havdalah;
       setVal('m_tzeit', hhmm(tzS));
@@ -271,10 +271,10 @@
         for(let i=0;i<nzW.length;i++){
           let m=hm0, d=hd0+i;
           if(m==='Elul' && d>29){ m='Tishrei'; d-=29; }
-          offs.push(m==='Elul' ? 80 : (m==='Tishrei' && d>=3 && d<=9 ? 90 : null));
+          offs.push(m==='Elul' ? 75 : (m==='Tishrei' && d>=3 && d<=9 ? 85 : null));
         }
         const selT=[], hodT=[];
-        offs.forEach((o,i)=>{ if(o!=null){ const n=new Date(nzW[i]); selT.push(add(n,-o)); hodT.push(add(n,-20)); } });
+        offs.forEach((o,i)=>{ if(o!=null){ const n=new Date(nzW[i]); selT.push(add(n,-o)); hodT.push(add(n,-15)); } });
         const rowSel=document.getElementById('rowSel');
         if(selT.length){
           rowSel.classList.remove('hidden');
@@ -282,10 +282,10 @@
           document.getElementById('selHodu').innerHTML = '(הודו <span class="ltr">'+range(hodT)+'</span>)';
           const kinds=[...new Set(offs.filter(o=>o!=null))];
           const how = kinds.length>1 ? 'שעה / שעה ו‑10 דק׳ קודם הודו'
-            : (kinds[0]===80 ? 'שעה קודם הודו' : 'שעה ו‑10 דק׳ קודם הודו');
+            : (kinds[0]===75 ? 'שעה קודם הודו' : 'שעה ו‑10 דק׳ קודם הודו');
           document.getElementById('selSub').textContent = 'למניין הנץ, ' + how;
           const mb = getVal('w_shacharit2');
-          const selB = offs.filter(o=>o!=null).map(o=>shiftHHMM(mb, -(o-20))).filter(Boolean);
+          const selB = offs.filter(o=>o!=null).map(o=>shiftHHMM(mb, -(o-15))).filter(Boolean);
           const rowSel2 = document.getElementById('rowSel2');
           if(selB.length){
             rowSel2.classList.remove('hidden');
