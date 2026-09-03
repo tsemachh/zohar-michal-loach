@@ -139,7 +139,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v13', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v14', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -267,31 +267,32 @@
         const cj = await Promise.all([week[0], week[5]].map(d=>fetch(`https://www.hebcal.com/converter?cfg=json&date=${d}&g2h=1&strict=1&lg=he`).then(r=>r.json())));
         const P = h => { const t=(h||'').split(/\s+/); return {d:t[0]||'', m:t[1]||''}; };
         const a=P(cj[0].hebrew), b=P(cj[1].hebrew), el=document.getElementById('wDates');
-        const hm0 = cj[0].hm, hd0 = parseInt(cj[0].hd,10), offs = [];
+        const hm0 = cj[0].hm, hd0 = parseInt(cj[0].hd,10), kind = [];
         for(let i=0;i<nzW.length;i++){
           let m=hm0, d=hd0+i;
           if(m==='Elul' && d>29){ m='Tishrei'; d-=29; }
-          offs.push(m==='Elul' ? 75 : (m==='Tishrei' && d>=3 && d<=9 ? 85 : null));
+          kind.push(m==='Elul' ? 'elul' : (m==='Tishrei' && d>=3 && d<=9 ? 'aseret' : null));
         }
         const selT=[], hodT=[];
-        offs.forEach((o,i)=>{ if(o!=null){ const n=new Date(nzW[i]); selT.push(add(n,-o)); hodT.push(add(n,-15)); } });
+        kind.forEach((k,i)=>{ if(k){ const n=new Date(nzW[i]); selT.push(add(n, k==='elul' ? -90 : -100)); hodT.push(add(n,-20)); } });
         const rowSel=document.getElementById('rowSel');
         if(selT.length){
+          const kinds=[...new Set(kind.filter(Boolean))];
           rowSel.classList.remove('hidden');
           setVal('sel_time', range(selT));
           document.getElementById('selHodu').innerHTML = '(הודו <span class="ltr">'+range(hodT)+'</span>)';
-          const kinds=[...new Set(offs.filter(o=>o!=null))];
-          const how = kinds.length>1 ? 'שעה / שעה ו‑10 דק׳ קודם הודו'
-            : (kinds[0]===75 ? 'שעה קודם הודו' : 'שעה ו‑10 דק׳ קודם הודו');
-          document.getElementById('selSub').textContent = 'למניין הנץ, ' + how;
+          document.getElementById('selSub').textContent = 'למניין הנץ, ' +
+            (kinds.length>1 ? '90 / 100 דק׳ קודם הנץ' : (kinds[0]==='elul' ? '90 דק׳ קודם הנץ' : '100 דק׳ קודם הנץ'));
           const mb = getVal('w_shacharit2');
-          const selB = offs.filter(o=>o!=null).map(o=>shiftHHMM(mb, -(o-15))).filter(Boolean);
+          const selB = kind.filter(Boolean).map(k=>shiftHHMM(mb, k==='elul' ? -60 : -70)).filter(Boolean);
           const rowSel2 = document.getElementById('rowSel2');
           if(selB.length){
             rowSel2.classList.remove('hidden');
             const f=selB[0], l=selB[selB.length-1];
             setVal('sel2_time', f===l ? f : `${f} → ${l}`);
-            const sub2 = rowSel2.querySelector('.sub'); if(sub2) sub2.textContent = 'למניין ב׳, ' + how;
+            const sub2 = rowSel2.querySelector('.sub');
+            if(sub2) sub2.textContent = 'למניין ב׳, ' +
+              (kinds.length>1 ? 'שעה / שעה ו‑10 דק׳ קודם הודו' : (kinds[0]==='elul' ? 'שעה קודם הודו' : 'שעה ו‑10 דק׳ קודם הודו'));
           } else rowSel2.classList.add('hidden');
         } else { rowSel.classList.add('hidden'); document.getElementById('rowSel2').classList.add('hidden'); }
         if(el && a.d && b.d) el.textContent = nonik((a.m===b.m) ? `· ${a.d}–${b.d} ${a.m}` : `· ${a.d} ${a.m} – ${b.d} ${b.m}`);
