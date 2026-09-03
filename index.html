@@ -140,7 +140,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v19', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v20', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -275,14 +275,14 @@
           kind.push(m==='Elul' ? 'elul' : (m==='Tishrei' && d>=3 && d<=9 ? 'aseret' : null));
         }
         const selT=[];
-        kind.forEach((k,i)=>{ if(k){ const n=new Date(nzW[i]); selT.push(add(n, k==='elul' ? -80 : -90)); } });
+        kind.forEach((k,i)=>{ if(k){ const n=new Date(nzW[i]); selT.push(add(n, k==='elul' ? -90 : -100)); } });
         const rowSel=document.getElementById('rowSel');
         if(selT.length){
           const kinds=[...new Set(kind.filter(Boolean))];
           rowSel.classList.remove('hidden');
           setVal('sel_time', range(selT));
           document.getElementById('selSub').textContent = 'למניין הנץ, ' +
-            (kinds.length>1 ? '80 / 90 דק׳ קודם הנץ' : (kinds[0]==='elul' ? '80 דק׳ קודם הנץ' : '90 דק׳ קודם הנץ'));
+            (kinds.length>1 ? '90 / 100 דק׳ קודם הנץ' : (kinds[0]==='elul' ? '90 דק׳ קודם הנץ' : '100 דק׳ קודם הנץ'));
           const mb = getVal('w_shacharit2');
           const selB = kind.filter(Boolean).map(k=>shiftHHMM(mb, k==='elul' ? -60 : -70)).filter(Boolean);
           const rowSel2 = document.getElementById('rowSel2');
