@@ -118,6 +118,7 @@
 
       <section class="sec weekday">
         <h2 contenteditable data-k="h_weekday">ימי חול · ראשון–שישי <span class="secdate" id="wDates"></span></h2>
+        <div class="row hidden" id="rowSel"><span class="lbl" contenteditable data-k="l_sel">סליחות <span class="sub" id="selSub">שעה קודם הודו</span> <span class="netzp" id="selHodu"></span></span><span class="dots"></span><span class="tm" contenteditable data-k="sel_time">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_w1">שחרית מניין א׳ <span class="sub">ותיקין, 30 דק׳ קודם הנץ</span> <span class="netzp" data-k="w_netzp"></span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_netz">—</span></div>
         <div class="row fixed"><span class="lbl" contenteditable data-k="l_w2">שחרית מניין ב׳</span><span class="dots"></span><span class="tm" contenteditable data-k="w_shacharit2">07:00</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_w3">מנחה <span class="sub">20 דק׳ קודם השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_mincha">—</span></div>
@@ -136,7 +137,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v7', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v8', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -263,6 +264,23 @@
         const cj = await Promise.all([week[0], week[5]].map(d=>fetch(`https://www.hebcal.com/converter?cfg=json&date=${d}&g2h=1&strict=1&lg=he`).then(r=>r.json())));
         const P = h => { const t=(h||'').split(/\s+/); return {d:t[0]||'', m:t[1]||''}; };
         const a=P(cj[0].hebrew), b=P(cj[1].hebrew), el=document.getElementById('wDates');
+        const hm0 = cj[0].hm, hd0 = parseInt(cj[0].hd,10), offs = [];
+        for(let i=0;i<nzW.length;i++){
+          let m=hm0, d=hd0+i;
+          if(m==='Elul' && d>29){ m='Tishrei'; d-=29; }
+          offs.push(m==='Elul' ? 75 : (m==='Tishrei' && d>=3 && d<=9 ? 85 : null));
+        }
+        const selT=[], hodT=[];
+        offs.forEach((o,i)=>{ if(o!=null){ const n=new Date(nzW[i]); selT.push(add(n,-o)); hodT.push(add(n,-15)); } });
+        const rowSel=document.getElementById('rowSel');
+        if(selT.length){
+          rowSel.classList.remove('hidden');
+          setVal('sel_time', range(selT));
+          document.getElementById('selHodu').innerHTML = '(הודו <span class="ltr">'+range(hodT)+'</span>)';
+          const kinds=[...new Set(offs.filter(o=>o!=null))];
+          document.getElementById('selSub').textContent = kinds.length>1 ? 'שעה / שעה ו‑10 דק׳ קודם הודו'
+            : (kinds[0]===75 ? 'שעה קודם הודו' : 'שעה ו‑10 דק׳ קודם הודו');
+        } else rowSel.classList.add('hidden');
         if(el && a.d && b.d) el.textContent = nonik((a.m===b.m) ? `· ${a.d}–${b.d} ${a.m}` : `· ${a.d} ${a.m} – ${b.d} ${b.m}`);
       }catch(e){}
 
