@@ -32,13 +32,13 @@
   .dates{display:flex;align-items:baseline;gap:3.5mm;text-align:left;font-size:4.4mm;line-height:1.2;color:#57493a;white-space:nowrap}
   .dates b{font-family:'Frank Ruhl Libre',serif;font-size:5.2mm;font-weight:700;color:var(--teal)}
 
-  .sec{margin-bottom:2.6mm}
+  .sec{margin-bottom:2mm}
   .sec:last-of-type{margin-bottom:0}
-  .sec h2{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:6.1mm;color:#fff;background:var(--teal);display:block;margin:0 0 1.4mm;padding:0.5mm 4mm 0.9mm;border-radius:1mm;line-height:1.12}
+  .sec h2{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:6.1mm;color:#fff;background:var(--teal);display:block;margin:0 0 1.2mm;padding:0.45mm 4mm 0.85mm;border-radius:1mm;line-height:1.12}
   .secdate{font-size:4.3mm;font-weight:500;opacity:.9}
   .sec.shabbat h2{background:var(--crimson)}
   .sec.motzash h2{background:#6B5527}
-  .row{display:flex;align-items:baseline;padding:0.6mm 0;font-size:5.05mm;line-height:1.16}
+  .row{display:flex;align-items:baseline;padding:0.45mm 0;font-size:5.05mm;line-height:1.16}
   .lbl{white-space:normal}
   .sub{font-size:4.1mm;color:#6b5b48}
   .netzp{font-size:4.1mm;font-weight:700;color:var(--orange);white-space:nowrap}
@@ -118,8 +118,9 @@
 
       <section class="sec weekday">
         <h2 contenteditable data-k="h_weekday">ימי חול · ראשון–שישי <span class="secdate" id="wDates"></span></h2>
-        <div class="row hidden" id="rowSel"><span class="lbl" contenteditable data-k="l_sel">סליחות <span class="sub" id="selSub">שעה קודם הודו</span> <span class="netzp" id="selHodu"></span></span><span class="dots"></span><span class="tm" contenteditable data-k="sel_time">—</span></div>
+        <div class="row hidden" id="rowSel"><span class="lbl" contenteditable data-k="l_sel">סליחות <span class="sub" id="selSub">למניין הנץ, שעה קודם הודו</span> <span class="netzp" id="selHodu"></span></span><span class="dots"></span><span class="tm" contenteditable data-k="sel_time">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_w1">שחרית מניין א׳ <span class="sub">ותיקין, 30 דק׳ קודם הנץ</span> <span class="netzp" data-k="w_netzp"></span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_netz">—</span></div>
+        <div class="row hidden" id="rowSel2"><span class="lbl" contenteditable data-k="l_sel2">סליחות <span class="sub">למניין ב׳, שעה קודם הודו</span></span><span class="dots"></span><span class="tm" contenteditable data-k="sel2_time">—</span></div>
         <div class="row fixed"><span class="lbl" contenteditable data-k="l_w2">שחרית מניין ב׳</span><span class="dots"></span><span class="tm" contenteditable data-k="w_shacharit2">07:00</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_w3">מנחה <span class="sub">20 דק׳ קודם השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_mincha">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_w4">ערבית <span class="sub">צאת הכוכבים לפי אור החיים</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_arvit">—</span></div>
@@ -137,7 +138,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v8', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v9', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
@@ -278,9 +279,19 @@
           setVal('sel_time', range(selT));
           document.getElementById('selHodu').innerHTML = '(הודו <span class="ltr">'+range(hodT)+'</span>)';
           const kinds=[...new Set(offs.filter(o=>o!=null))];
-          document.getElementById('selSub').textContent = kinds.length>1 ? 'שעה / שעה ו‑10 דק׳ קודם הודו'
+          const how = kinds.length>1 ? 'שעה / שעה ו‑10 דק׳ קודם הודו'
             : (kinds[0]===75 ? 'שעה קודם הודו' : 'שעה ו‑10 דק׳ קודם הודו');
-        } else rowSel.classList.add('hidden');
+          document.getElementById('selSub').textContent = 'למניין הנץ, ' + how;
+          const mb = getVal('w_shacharit2');
+          const selB = offs.filter(o=>o!=null).map(o=>shiftHHMM(mb, -(o-15))).filter(Boolean);
+          const rowSel2 = document.getElementById('rowSel2');
+          if(selB.length){
+            rowSel2.classList.remove('hidden');
+            const f=selB[0], l=selB[selB.length-1];
+            setVal('sel2_time', f===l ? f : `${f} → ${l}`);
+            const sub2 = rowSel2.querySelector('.sub'); if(sub2) sub2.textContent = 'למניין ב׳, ' + how;
+          } else rowSel2.classList.add('hidden');
+        } else { rowSel.classList.add('hidden'); document.getElementById('rowSel2').classList.add('hidden'); }
         if(el && a.d && b.d) el.textContent = nonik((a.m===b.m) ? `· ${a.d}–${b.d} ${a.m}` : `· ${a.d} ${a.m} – ${b.d} ${b.m}`);
       }catch(e){}
 
