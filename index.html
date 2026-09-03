@@ -49,6 +49,9 @@
   .note{display:block;font-size:4.6mm;line-height:1.22;padding:0.5mm 0 0.3mm;color:#3d3021}
   .note b{color:var(--crimson);font-weight:700}
   .note .when{color:var(--teal);font-weight:700}
+  .msg{display:flex;align-items:baseline;gap:3mm;margin-top:2mm;padding:1mm 3mm;border:0.4mm dashed var(--rule);border-radius:1mm;min-height:8mm}
+  .msgt{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:4.3mm;color:var(--crimson);white-space:nowrap}
+  .msgc{flex:1;font-size:4.3mm;line-height:1.25;min-height:5mm}
   .foot{text-align:center;margin-top:1.8mm;padding-top:1.2mm;border-top:0.4mm solid var(--rule);font-family:'Frank Ruhl Libre',serif;font-size:5.1mm;font-weight:700;color:#6b5b48}
   [contenteditable]:focus{outline:1.5px dashed var(--orange);outline-offset:2px;background:rgba(224,132,43,.10)}
   .hidden{display:none!important}
@@ -110,8 +113,7 @@
       <section class="sec motzash">
         <h2 contenteditable data-k="h_motzash">מוצאי שבת קודש</h2>
         <div class="row"><span class="lbl" contenteditable data-k="l_m1">ערבית <span class="sub">10 דק׳ קודם צאת השבת</span></span><span class="dots"></span><span class="tm" contenteditable data-k="m_arvit">—</span></div>
-        <div class="row"><span class="lbl" contenteditable data-k="l_m2">צאת השבת והבדלה</span><span class="dots"></span><span class="tm" contenteditable data-k="m_tzeit">—</span></div>
-        <div class="row"><span class="lbl" contenteditable data-k="l_m3">רבנו תם <span class="sub">72 דקות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="m_rt">—</span></div>
+        <div class="row"><span class="lbl" contenteditable data-k="l_m2">צאת השבת והבדלה <span class="sub">· רבנו תם 72 דק׳</span> <span class="netzp"><span class="ltr" data-k="m_rt">—</span></span></span><span class="dots"></span><span class="tm" contenteditable data-k="m_tzeit">—</span></div>
       </section>
 
       <section class="sec weekday">
@@ -121,6 +123,8 @@
         <div class="row"><span class="lbl" contenteditable data-k="l_w3">מנחה <span class="sub">20 דק׳ קודם השקיעה</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_mincha">—</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_w4">ערבית <span class="sub">צאת הכוכבים לפי אור החיים</span></span><span class="dots"></span><span class="tm" contenteditable data-k="w_arvit">—</span></div>
       </section>
+
+      <div class="msg"><span class="msgt">הודעות</span><span class="msgc" contenteditable data-k="msg"></span></div>
 
       <div class="foot" contenteditable data-k="foot">הזמנים לירושלים לפי לוח אור החיים · שבת שלום ומבורך</div>
 
