@@ -14,7 +14,8 @@
   body{background:#3a3733;font-family:'Assistant',system-ui,'Segoe UI',Arial,sans-serif;color:var(--ink);-webkit-text-size-adjust:100%}
 
   .toolbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:#211f1c;border-bottom:1px solid #4a453e}
-  .toolbar button,.toolbar label.filebtn{font-family:inherit;font-size:14px;font-weight:600;background:#efe8da;color:#221c14;border:1px solid #cfc3ab;border-radius:4px;padding:7px 12px;cursor:pointer}
+  .toolbar a.doc{text-decoration:none;display:inline-block}
+  .toolbar button,.toolbar label.filebtn,.toolbar a.doc{font-family:inherit;font-size:14px;font-weight:600;background:#efe8da;color:#221c14;border:1px solid #cfc3ab;border-radius:4px;padding:7px 12px;cursor:pointer}
   .toolbar button:hover,.toolbar label.filebtn:hover{background:#fff}
   .toolbar button:focus-visible,.toolbar label.filebtn:focus-within{outline:2px solid var(--orange);outline-offset:2px}
   .toolbar button.primary{background:var(--teal);border-color:#0b504e;color:#fff}
@@ -75,6 +76,7 @@
   <label class="filebtn">בחר תמונת רקע<input type="file" id="bgInput" accept="image/*"></label>
   <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
   <button id="btnReset">איפוס עריכות</button>
+  <a class="doc" href="https://github.com/tsemachh/zohar-michal-loach/blob/main/README.md" target="_blank" rel="noopener">הוראות שימוש</a>
   <span class="status" id="status">כל שעה וכל כותרת ניתנות לעריכה בלחיצה ישירה.</span>
 </div>
 
