@@ -32,13 +32,13 @@
   .dates{display:flex;align-items:baseline;gap:3.5mm;text-align:left;font-size:4.4mm;line-height:1.2;color:#57493a;white-space:nowrap}
   .dates b{font-family:'Frank Ruhl Libre',serif;font-size:5.2mm;font-weight:700;color:var(--teal)}
 
-  .sec{margin-bottom:1.7mm}
+  .sec{margin-bottom:1.4mm}
   .sec:last-of-type{margin-bottom:0}
   .sec h2{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:6.1mm;color:#fff;background:var(--teal);display:block;margin:0 0 1mm;padding:0.4mm 4mm 0.8mm;border-radius:1mm;line-height:1.12}
   .secdate{font-size:4.3mm;font-weight:500;opacity:.9}
   .sec.shabbat h2{background:var(--crimson)}
   .sec.motzash h2{background:#6B5527}
-  .row{display:flex;align-items:baseline;padding:0.34mm 0;font-size:5.05mm;line-height:1.16}
+  .row{display:flex;align-items:baseline;padding:0.28mm 0;font-size:5.05mm;line-height:1.16}
   .lbl{white-space:normal}
   .sub{font-size:4.1mm;color:#6b5b48}
   .netzp{font-size:4.1mm;font-weight:700;color:var(--orange);white-space:nowrap}
@@ -46,7 +46,7 @@
   .dots{flex:1;border-bottom:0.3mm dotted var(--rule);margin:0 2.5mm;transform:translateY(-1.2mm)}
   .tm{direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-weight:700;font-size:5.5mm;color:var(--teal);width:36mm;flex:none;text-align:left;font-variant-numeric:tabular-nums}
   .row.fixed .tm{color:var(--ink)}
-  .note{display:block;font-size:4.6mm;line-height:1.22;padding:0.5mm 0 0.3mm;color:#3d3021}
+  .note{display:block;font-size:4.6mm;line-height:1.18;padding:0.35mm 0 0.2mm;color:#3d3021}
   .note b{color:var(--crimson);font-weight:700}
   .note .when{color:var(--teal);font-weight:700}
   .msg{display:flex;align-items:baseline;gap:3mm;margin-top:2mm;padding:1mm 3mm;border:0.4mm dashed var(--rule);border-radius:1mm;min-height:8mm}
@@ -102,6 +102,7 @@
         <h2 contenteditable data-k="h_shabbat">יום שבת קודש</h2>
         <div class="row"><span class="lbl" contenteditable data-k="l_s1">שחרית מניין א׳ <span class="sub">ותיקין, קרבנות 60 דק׳ קודם הנץ</span> <span class="netzp" data-k="s_netzp"></span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_netz">—</span></div>
         <div class="row fixed"><span class="lbl" contenteditable data-k="l_s2">שחרית מניין ב׳ <span class="sub">קרבנות</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_shacharit2">07:30</span></div>
+        <div class="note" contenteditable data-k="s_shiur3"><b>שיעור מפי הרב אסף שליט״א</b> <span class="when">— לאחר תפילת שחרית של מניין ב׳</span></div>
         <div class="row"><span class="lbl" contenteditable data-k="l_s3">סוף זמן קריאת שמע <span class="sub">מג״א</span></span><span class="dots"></span><span class="tm" contenteditable data-k="s_shmaGRA">—</span></div>
         <div class="row fixed"><span class="lbl" contenteditable data-k="l_s4">מנחה גדולה</span><span class="dots"></span><span class="tm" contenteditable data-k="s_minchaGed">13:15</span></div>
         <div class="note" contenteditable data-k="s_shiur"><b>שיעור מפי הרב בן דהן שליט״א במסכת שבת</b> <span class="when">— מיד לאחר מנחה גדולה</span></div>
@@ -139,7 +140,7 @@
 <script>
 (function(){
   const GEO = 281184;
-  const LS = {fields:'zm_fields_v17', bg:'zm_bg_v1', season:'zm_season_v1'};
+  const LS = {fields:'zm_fields_v18', bg:'zm_bg_v1', season:'zm_season_v1'};
   const $  = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const say = t => $('#status').textContent = t;
