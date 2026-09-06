@@ -15,6 +15,7 @@
 
   .toolbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:#211f1c;border-bottom:1px solid #4a453e}
   .toolbar a.doc{text-decoration:none;display:inline-block}
+  .toolbar button.nav{font-size:20px;padding:14px 22px;min-width:170px;background:#3d3a35;color:#f2ead9;border-color:#5b554b}
   .toolbar button,.toolbar label.filebtn,.toolbar a.doc{font-family:inherit;font-size:14px;font-weight:600;background:#efe8da;color:#221c14;border:1px solid #cfc3ab;border-radius:4px;padding:7px 12px;cursor:pointer}
   .toolbar button:hover,.toolbar label.filebtn:hover{background:#fff}
   .toolbar button:focus-visible,.toolbar label.filebtn:focus-within{outline:2px solid var(--orange);outline-offset:2px}
@@ -72,8 +73,8 @@
 
 <div class="toolbar no-print">
   <button class="primary" id="btnUpdate">עדכן זמנים לשבוע הקרוב</button>
-  <button id="btnPrev" title="שבת קודמת">−</button>
-  <button id="btnNext" title="שבת הבאה">+</button>
+  <button id="btnPrev" class="nav">→ שבת קודמת</button>
+  <button id="btnNext" class="nav">שבת הבאה ←</button>
   <button class="season" id="btnSeason">שעון קיץ</button>
   <label class="filebtn">בחר תמונת רקע<input type="file" id="bgInput" accept="image/*"></label>
   <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
@@ -259,7 +260,9 @@
 
       applySeason();
       saveFields(); fit();
-      say('הזמנים עודכנו לפי אור החיים. ימי חול = השבוע שאחרי השבת הקרובה, כטווח.');
+      const gd = z.ymd.sat.split('-');
+      say('מציג: ' + (z.parasha||'') + ' · שבת ' + (+gd[2]) + '.' + (+gd[1]) +
+          (weekOffset ? '  (' + (weekOffset>0?'+':'') + weekOffset + ' שבועות)' : '  — השבת הקרובה'));
     }catch(err){
       say('לא ניתן להתחבר ל‑Hebcal (' + err.message + '). ניתן למלא ידנית.');
     }
