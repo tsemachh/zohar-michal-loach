@@ -54,7 +54,7 @@ PAGES = [
   ]},
  {
   'file': 'chagim-sukkot.html', 'cols': 1, 'accent': 'sukkot',
-  'pad': {'padt':'14mm','padb':'12mm','padx':'16mm'},
+  'pad': {'padt':'11mm','padb':'10mm','padx':'15mm'},
   'title': 'לוח זמנים לחגי הסוכות',
   'sub': 'סוכות · חול המועד · הושענא רבה · שמחת תורה',
   'foot': 'חג שמח · ושמחת בחגך',
@@ -222,14 +222,14 @@ CSS = """
   .r .t.small{font-size:3.2mm;font-weight:600;color:#9c8c74}
   .sky{margin-top:1mm;padding-top:.8mm;border-top:0.25mm dotted rgba(36,29,22,.25);font-size:3.5mm;color:#8a7a62}
 
-  .grid.one .dh .nm{font-size:6.4mm}
+  .grid.one .dh .nm{font-size:6mm}
   .grid.one .dh .dt{font-size:3.9mm}
-  .grid.one .r{font-size:4.8mm;padding:.8mm 0;line-height:1.2}
-  .grid.one .r .t{width:24mm;font-size:5mm}
+  .grid.one .r{font-size:4.6mm;padding:.55mm 0;line-height:1.18}
+  .grid.one .r .t{width:26mm;font-size:4.8mm}
   .grid.one .r .t.netz{font-size:4.6mm}
   .grid.one .caps span{width:24mm;font-size:3.2mm}
   .grid.one .sky{font-size:3.6mm}
-  .grid.one .day{margin-bottom:5.4mm}
+  .grid.one .day{margin-bottom:4.2mm}
   .grid.one .caps{font-size:3.2mm}
   .grid.one .dh .dt{font-size:3.9mm}
 
