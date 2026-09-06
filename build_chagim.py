@@ -17,6 +17,7 @@ PAGES = [
   'title': 'לוח זמנים לימים הנוראים',
   'sub': 'ראש השנה · צום גדליה · שבת שובה · יום הכיפורים',
   'foot': 'כתיבה וחתימה טובה',
+  'note': 'מניין הנץ בשני ימי ראש השנה מתקיים בגן הילדים · רח׳ יצחק ניסים 102',
   'days': [
    {'name':'ערב ראש השנה','day':'שישי','date':'כ״ט אלול · 11.9.26',
     'sky':'זריחה 06:20 · שקיעה 18:55 · צאת הכוכבים 19:10',
@@ -24,12 +25,12 @@ PAGES = [
             ('התרת נדרים','06:45','07:45'),('מנחה','','18:35')]},
    {'name':'א׳ ראש השנה','day':'שבת קודש','date':'א׳ תשרי · 12.9.26','hl':True,
     'sky':'זריחה 06:20 · שקיעה 18:53 · צאת הכוכבים 19:08',
-    'rows':[('שחרית','יפורסם בנפרד','07:00'),('מנחה מוקדמת','','13:30'),
+    'rows':[('שחרית','05:35','07:00'),('מנחה מוקדמת','','13:30'),
             ('תהילים','','17:00'),('מנחה','','18:00'),('תשליך','','18:30'),
             ('שיעור · מו״ר הרב אריאל אדרי','','18:45'),('ערבית','','19:15')]},
    {'name':'ב׳ ראש השנה','day':'ראשון','date':'ב׳ תשרי · 13.9.26','hl':True,
     'sky':'זריחה 06:20 · שקיעה 18:53 · צאת הכוכבים 19:08',
-    'rows':[('שחרית','יפורסם בנפרד','07:00'),('תקיעת שופר · משוער','','10:00'),
+    'rows':[('שחרית','05:35','07:00'),('תקיעת שופר · משוער','','10:00'),
             ('שיעור גמרא · הרב בן דהאן','','17:15'),('מנחה','','18:15'),
             ('שיעור','','18:45'),('ערבית · 10 דק׳ קודם צאת החג','','19:12'),
             ('צאת החג','','19:22')]},
@@ -239,7 +240,8 @@ CSS = """
   .grid.one .caps{font-size:3.2mm}
   .grid.one .dh .dt{font-size:3.9mm}
 
-  .foot{text-align:center;margin-top:2mm;font-family:'Frank Ruhl Libre',serif;font-size:5mm;font-weight:700;color:var(--deep)}
+  .pgnote{text-align:center;font-size:3.6mm;color:var(--hl);margin-top:2mm;font-weight:600}
+  .foot{text-align:center;margin-top:1.4mm;font-family:'Frank Ruhl Libre',serif;font-size:5mm;font-weight:700;color:var(--deep)}
   .foot small{display:block;font-family:'Assistant',sans-serif;font-weight:400;font-size:3.2mm;color:#9c8c74;margin-top:.8mm}
   [contenteditable]:focus{outline:1.5px dashed var(--accent);outline-offset:2px;background:rgba(156,122,46,.08)}
   @page{size:A4 portrait;margin:0}
@@ -329,6 +331,7 @@ TPL = """<!DOCTYPE html>
       <div class="grid{gridcls}">
         {days}
       </div>
+      <div class="pgnote">{note}</div>
       <div class="foot">{foot}<small>הזמנים לירושלים</small></div>
     </div>
   </div>
@@ -359,7 +362,7 @@ for pg in PAGES:
     pal = PALETTE[pg['accent']]
     days = '\n        '.join(day_html(d) for d in pg['days'])
     html = TPL.format(title=pg['title'], year=YEAR, sub=pg['sub'], css=CSS, days=days,
-                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, deco=motif_layer(pg['accent']),
+                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, note=pg.get('note',''), deco=motif_layer(pg['accent']),
                       gridcls=' one' if pg.get('cols',2)==1 else '',
                       **dict(pal, **pg.get('pad', {'padt':'17mm','padb':'15mm','padx':'17mm'})))
     with io.open(os.path.join(here, pg['file']), 'w', encoding='utf-8') as f:
