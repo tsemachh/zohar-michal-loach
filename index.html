@@ -195,6 +195,21 @@
   function isIsraelDST(d){
     return /\+3/.test(new Intl.DateTimeFormat('en-US',{timeZone:TZ,timeZoneName:'shortOffset'}).format(d||new Date()));
   }
+  function upcomingSaturday(){
+    const p = ymd(new Date()).split('-').map(Number);
+    const d = new Date(Date.UTC(p[0], p[1]-1, p[2], 12, 0, 0));
+    d.setUTCDate(d.getUTCDate() + ((6 - d.getUTCDay() + 7) % 7));
+    return d;
+  }
+  async function parashaName(sat){
+    try{
+      const j = await (await fetch(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${sat}&end=${sat}&s=on&maj=on&min=off&mod=off&nx=off&geo=none&lg=he`)).json();
+      const it = (j.items||[]);
+      const par = it.find(i=>i.category==='parashat') || it.find(i=>i.category==='holiday');
+      return par ? (par.hebrew || par.title) : null;
+    }catch(e){ return null; }
+  }
+
   let season = localStorage.getItem(LS.season) || (isIsraelDST() ? 'summer' : 'winter');
   function applySeason(){
     const sum = season==='summer';
@@ -212,14 +227,7 @@
   async function update(){
     say('מתעדכן מ‑Hebcal…');
     try{
-      const sh = await (await fetch(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${GEO}&b=40&M=on&lg=he`)).json();
-      const items = sh.items||[];
-      const par = items.find(i=>i.category==='parashat');
-      const can = items.find(i=>i.category==='candles');
-      const hav = items.find(i=>i.category==='havdalah');
-      if(!can||!hav) throw new Error('חסרים זמני שבת בתשובת השרת');
-
-      const candles = new Date(can.date), havdalah = new Date(hav.date);
+      const havdalah = upcomingSaturday(), candles = add(havdalah,-1440);
       const friYmd = ymd(add(havdalah,-1440)), endYmd = ymd(add(havdalah,6*1440));
       const zq = `https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${friYmd}&end=${endYmd}`;
       const zr = await Promise.all([fetch(zq), fetch(zq+'&ue=on')]);
@@ -260,7 +268,8 @@
       setVal('m_arvit', hhmm(add(tzS,-10)));
       setVal('m_rt', visSat ? hhmm(add(visSat, 72.5*zman(sat))) : null);
 
-      if(par) setVal('parasha', 'לוח זמנים ל' + (par.hebrew || par.title));
+      const parName = await parashaName(sat);
+      if(parName) setVal('parasha', 'לוח זמנים ל' + parName);
       try{
         const cv = await (await fetch(`https://www.hebcal.com/converter?cfg=json&date=${sat}&g2h=1&strict=1&lg=he`)).json();
         if(cv.hebrew) setVal('hebdate', cv.hebrew);

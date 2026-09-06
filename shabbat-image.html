@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1120">
+<title>לוח זמנים לשבת — תמונה לשיתוף</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#3a3733;font-family:'Assistant',system-ui,Arial,sans-serif;color:#241d16}
+  .toolbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 16px;background:#211f1c;border-bottom:1px solid #4a453e}
+  .toolbar button{font-family:inherit;font-size:16px;font-weight:600;background:#efe8da;color:#221c14;border:1px solid #cfc3ab;border-radius:5px;padding:9px 14px;cursor:pointer}
+  .toolbar button.primary{background:#1F4E5F;border-color:#173C4A;color:#fff}
+  .toolbar .status{color:#cfc6b4;font-size:14px;margin-inline-start:auto;max-width:52ch}
+  #stage{padding:20px;display:flex;justify-content:center}
+
+  /* קנבס 4:5 — היחס שוואטסאפ מציג בלי לחתוך */
+  #card{position:relative;width:1080px;height:1350px;background:#FCFAF4;overflow:hidden;
+        --deep:#1F4E5F;--accent:#9C7A2E;--hl:#8C2F2A;--wash:#F3EFE3;
+        print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  #card svg.layer{position:absolute;inset:0;width:100%;height:100%}
+  .in{position:absolute;top:52px;right:56px;left:56px;bottom:44px;overflow:hidden}
+  #fit{transform-origin:top center}
+
+  .org{text-align:center;font-size:26px;font-weight:600;color:var(--deep);letter-spacing:.02em}
+  h1{margin:8px 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:74px;line-height:1.05;color:var(--hl)}
+  .hdate{text-align:center;font-size:30px;color:#7b6c56;margin-top:6px}
+  .rule{display:flex;align-items:center;gap:16px;margin:12px 0 14px}
+  .rule i{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+  .rule b{width:12px;height:12px;background:var(--accent);transform:rotate(45deg)}
+
+  .sec{margin-bottom:12px}
+  .sec h2{margin:0 0 4px;font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:40px;line-height:1.1;color:var(--deep);border-bottom:3px solid var(--deep);padding-bottom:5px;display:flex;justify-content:space-between;align-items:baseline}
+  .sec.hl h2{color:var(--hl);border-bottom-color:var(--hl)}
+  .sec h2 em{font-family:'Assistant',sans-serif;font-style:normal;font-size:24px;font-weight:600;color:#8a7a62}
+  .r{display:flex;align-items:baseline;gap:14px;padding:2px 0;font-size:37px;line-height:1.12}
+  .r .l{flex:1}
+  .r .l small{font-size:26px;color:#7b6c56}
+  .r .t{flex:0 0 auto;min-width:150px;text-align:left;direction:ltr;unicode-bidi:isolate;white-space:nowrap;
+        font-weight:700;font-size:42px;color:var(--deep);font-variant-numeric:tabular-nums}
+  .r .t.acc{color:var(--accent);font-size:34px}
+  .note{font-size:30px;color:#3d3021;padding:3px 0}
+  .note b{color:var(--hl)}
+  .foot{text-align:center;margin-top:14px;padding-top:10px;border-top:2px solid rgba(36,29,22,.25);font-family:'Frank Ruhl Libre',serif;font-size:32px;font-weight:700;color:var(--deep)}
+  .foot small{display:block;font-family:'Assistant',sans-serif;font-weight:400;font-size:22px;color:#9c8c74;margin-top:2px}
+  .hidden{display:none!important}
+  [contenteditable]:focus{outline:2px dashed var(--accent);outline-offset:3px;background:rgba(156,122,46,.10)}
+  @media print{body{background:none}.no-print{display:none!important}#stage{padding:0}}
+</style>
+</head>
+<body>
+<div class="toolbar no-print">
+  <button class="primary" id="btnUpdate">עדכן זמנים לשבת הקרובה</button>
+  <button id="btnPng">הורד תמונה לוואטסאפ</button>
+  <button id="btnSeason">שעון קיץ</button>
+  <span class="status" id="status">כל שורה ניתנת לעריכה בלחיצה ישירה.</span>
+</div>
+
+<div id="stage">
+<div id="card">
+  <svg class="layer" viewBox="0 0 1080 1350" preserveAspectRatio="none" aria-hidden="true">
+    <rect width="1080" height="1350" fill="#FCFAF4"/>
+    <rect x="18" y="18" width="1044" height="1314" fill="none" stroke="var(--deep)" stroke-width="6"/>
+    <rect x="30" y="30" width="1020" height="1290" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <rect x="36" y="36" width="1008" height="1278" fill="var(--wash)" opacity=".45"/>
+  </svg>
+  <svg class="layer" viewBox="0 0 1080 1350" aria-hidden="true">
+    <defs>
+      <g id="nerot">
+        <path d="M-26 40 h52 v6 h-52 Z" fill="#8A5A1E"/>
+        <rect x="-20" y="-6" width="10" height="46" fill="#D9C9A6" stroke="#8A5A1E" stroke-width="2"/>
+        <rect x="10" y="-6" width="10" height="46" fill="#D9C9A6" stroke="#8A5A1E" stroke-width="2"/>
+        <path d="M-15 -8 c-9 -12, 0 -18, 0 -26 c 0 8, 9 14, 0 26 Z" fill="#E0A62B"/>
+        <path d="M15 -8 c-9 -12, 0 -18, 0 -26 c 0 8, 9 14, 0 26 Z" fill="#E0A62B"/>
+      </g>
+      <g id="kos">
+        <path d="M-22 -22 h44 l-6 26 a16 16 0 0 1 -32 0 Z" fill="#8C2F2A"/>
+        <path d="M0 20 v18 M-16 40 h32" stroke="#9C7A2E" stroke-width="6" stroke-linecap="round"/>
+      </g>
+      <g id="challa">
+        <ellipse cx="0" cy="6" rx="34" ry="17" fill="#B07A2B"/>
+        <path d="M-24 2 q10 -12, 20 0 M-4 2 q10 -12, 20 0" fill="none" stroke="#8A5A1E" stroke-width="4" stroke-linecap="round"/>
+      </g>
+    </defs>
+    <g opacity=".95">
+      <use href="#nerot" transform="translate(96 150) scale(1.25)"/>
+      <use href="#kos" transform="translate(984 156) scale(1.25)"/>
+      <use href="#challa" transform="translate(120 1268) scale(1.05)"/>
+      <use href="#challa" transform="translate(960 1268) scale(1.05)"/>
+    </g>
+  </svg>
+
+  <div class="in"><div id="fit">
+    <div class="org">בית הכנסת זוהר מיכל הי״ד · חומת שמואל</div>
+    <h1 contenteditable data-k="parasha">פרשת השבוע</h1>
+    <div class="hdate" contenteditable data-k="hebdate">תאריך עברי</div>
+    <div class="rule"><i></i><b></b><i></i></div>
+
+    <div class="sec hl">
+      <h2>ערב שבת קודש</h2>
+      <div class="r" id="rowEarly"><span class="l">מנחה מוקדמת וקבלת שבת</span><span class="t" contenteditable data-k="e_early">—</span></div>
+      <div class="r"><span class="l">הדלקת נרות</span><span class="t" contenteditable data-k="e_candles">—</span></div>
+      <div class="r"><span class="l">מנחה וקבלת שבת <small>שיר השירים 5 דק׳ קודם</small></span><span class="t" contenteditable data-k="e_mincha">—</span></div>
+    </div>
+
+    <div class="sec hl">
+      <h2>שבת קודש</h2>
+      <div class="r"><span class="l">שחרית ותיקין <small>קרבנות</small> <span class="t acc" data-k="s_netzp"></span></span><span class="t" contenteditable data-k="s_netz">—</span></div>
+      <div class="r"><span class="l">שחרית מניין ב׳</span><span class="t" contenteditable data-k="s_shacharit2">07:30</span></div>
+      <div class="r"><span class="l">סוף זמן ק״ש <small>מג״א</small></span><span class="t" contenteditable data-k="s_shmaGRA">—</span></div>
+      <div class="r"><span class="l">מנחה גדולה ושיעור</span><span class="t" contenteditable data-k="s_minchaGed">13:15</span></div>
+      <div class="r"><span class="l">מנחה קטנה <small>וסעודה שלישית</small></span><span class="t" contenteditable data-k="s_mincha2">—</span></div>
+      <div class="r"><span class="l">ערבית <small>10 דק׳ קודם צאת השבת</small></span><span class="t" contenteditable data-k="m_arvit">—</span></div>
+      <div class="r"><span class="l">צאת השבת <small>ר״ת</small> <span class="t acc" data-k="m_rt"></span></span><span class="t" contenteditable data-k="m_tzeit">—</span></div>
+    </div>
+
+    <div class="sec">
+      <h2>ימי חול <em id="wDates"></em></h2>
+      <div class="r hidden" id="rowSel"><span class="l">סליחות</span><span class="t" contenteditable data-k="sel_time">—</span></div>
+      <div class="r"><span class="l">שחרית ותיקין <small>קרבנות</small> <span class="t acc" data-k="w_netzp"></span></span><span class="t" contenteditable data-k="w_netz">—</span></div>
+      <div class="r"><span class="l">שחרית מניין ב׳</span><span class="t" contenteditable data-k="w_shacharit2">07:00</span></div>
+      <div class="r"><span class="l">מנחה</span><span class="t" contenteditable data-k="w_mincha">—</span></div>
+      <div class="r"><span class="l">ערבית</span><span class="t" contenteditable data-k="w_arvit">—</span></div>
+    </div>
+
+    <div class="foot">שבת שלום ומבורך<small>הזמנים לירושלים לפי לוח אור החיים</small></div>
+  </div></div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+(function(){
+  const GEO = 281184, TZ = 'Asia/Jerusalem';
+  const $ = s => document.querySelector(s);
+  const say = t => $('#status').textContent = t;
+  const hhmm = d => new Intl.DateTimeFormat('he-IL',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:TZ}).format(d);
+  const ymd  = d => new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:TZ}).format(d);
+  const add  = (d,m) => new Date(d.getTime()+m*60000);
+  const nonik = t => (t||'').replace(/[\u0591-\u05BD\u05BF-\u05C7]/g,'');
+  const setVal = (k,v) => { const e=document.querySelector(`[data-k="${k}"]`); if(e&&v) e.textContent=nonik(v); };
+  const getVal = k => { const e=document.querySelector(`[data-k="${k}"]`); return e?e.textContent.trim():''; };
+  const range = arr => { const v=arr.filter(Boolean).map(x=>hhmm(new Date(x))); if(!v.length) return null;
+                         return v[0]===v[v.length-1] ? v[0] : `${v[0]}\u00A0→\u00A0${v[v.length-1]}`; };
+  const rangeShift = (a,m) => range(a.filter(Boolean).map(x=>add(new Date(x),m)));
+  const pick = (T,k,ds) => ds.map(d=>T[k]&&T[k][d]).filter(Boolean);
+  const isDST = d => /\+3/.test(new Intl.DateTimeFormat('en-US',{timeZone:TZ,timeZoneName:'shortOffset'}).format(d||new Date()));
+
+  function upcomingSaturday(){
+    const p = ymd(new Date()).split('-').map(Number);
+    const d = new Date(Date.UTC(p[0], p[1]-1, p[2], 12, 0, 0));
+    d.setUTCDate(d.getUTCDate() + ((6 - d.getUTCDay() + 7) % 7));
+    return d;
+  }
+  async function parashaName(sat){
+    try{
+      const j = await (await fetch(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${sat}&end=${sat}&s=on&maj=on&min=off&mod=off&nx=off&geo=none&lg=he`)).json();
+      const it = (j.items||[]);
+      const par = it.find(i=>i.category==='parashat') || it.find(i=>i.category==='holiday');
+      return par ? (par.hebrew || par.title) : null;
+    }catch(e){ return null; }
+  }
+
+  let season = isDST() ? 'summer' : 'winter';
+  function applySeason(){
+    const sum = season==='summer';
+    $('#btnSeason').textContent = sum ? 'שעון קיץ' : 'שעון חורף';
+    $('#rowEarly').classList.toggle('hidden', !sum);
+    setVal('s_minchaGed', sum ? '13:15' : '13:00');
+  }
+  $('#btnSeason').addEventListener('click', ()=>{ season = season==='summer'?'winter':'summer'; applySeason(); });
+
+  async function update(){
+    say('מתעדכן…');
+    try{
+      const havdalah = upcomingSaturday();
+      const friYmd = ymd(add(havdalah,-1440)), endYmd = ymd(add(havdalah,6*1440));
+      const q = `https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${friYmd}&end=${endYmd}`;
+      const rs = await Promise.all([fetch(q), fetch(q+'&ue=on')]);
+      const js = await Promise.all(rs.map(r=>r.json()));
+      const T = js[0].times||{}, U = js[1].times||{};
+      const fri = friYmd, sat = ymd(havdalah), week=[], sunThu=[];
+      for(let i=1;i<=6;i++){ const d=ymd(add(havdalah,i*1440)); week.push(d); if(i<=5) sunThu.push(d); }
+      const D = (o,k,d) => o[k]&&o[k][d] ? new Date(o[k][d]) : null;
+      const zman = d => { const a=D(T,'sunrise',d), b=D(T,'sunset',d); return (a&&b)?(b-a)/43200000:1; };
+
+      season = isDST(havdalah) ? 'summer' : 'winter';
+      const visFri = D(U,'sunset',fri), visSat = D(U,'sunset',sat);
+      const cnd = add(visFri,-40);
+      setVal('e_candles', hhmm(cnd));
+      setVal('e_early',   hhmm(add(cnd,-60)));
+      setVal('e_mincha',  hhmm(add(cnd, 20)));
+
+      const nzS = D(T,'sunrise',sat);
+      if(nzS){ setVal('s_netz', hhmm(add(nzS,-60))); setVal('s_netzp','(נץ '+hhmm(nzS)+')'); }
+      const shma = D(U,'sofZmanShmaMGA',sat);
+      setVal('s_shmaGRA', shma?hhmm(shma):null);
+      const mk = new Date(Math.round(add(cnd,-20).getTime()/900000)*900000);
+      setVal('s_mincha2', hhmm(mk));
+      const tz = add(visSat,30);
+      setVal('m_tzeit', hhmm(tz));
+      setVal('m_arvit', hhmm(add(tz,-10)));
+      setVal('m_rt', '(ר״ת '+hhmm(add(visSat, 72.5*zman(sat)))+')');
+
+      const nzW = pick(T,'sunrise',week);
+      setVal('w_netz',   rangeShift(nzW,-30));
+      const np = document.querySelector('[data-k="w_netzp"]');
+      if(np) np.textContent = '(נץ '+range(nzW)+')';
+      setVal('w_mincha', rangeShift(pick(T,'sunset',sunThu), -20));
+      setVal('w_arvit',  range(sunThu.map(d=>{ const v=D(U,'sunset',d); return v?add(v,14.5*zman(d)):null; }).filter(Boolean)));
+
+      const parName = await parashaName(sat);
+      if(parName) setVal('parasha', parName);
+      try{
+        const cj = await Promise.all([sat, week[0], week[5]].map(d=>fetch(`https://www.hebcal.com/converter?cfg=json&date=${d}&g2h=1&strict=1&lg=he`).then(r=>r.json())));
+        setVal('hebdate', cj[0].hebrew);
+        const P = h => { const t=nonik(h||'').split(/\s+/); return {d:t[0]||'',m:t[1]||''}; };
+        const a=P(cj[1].hebrew), b=P(cj[2].hebrew), el=$('#wDates');
+        if(el&&a.d&&b.d) el.textContent = (a.m===b.m) ? `${a.d}–${b.d} ${a.m}` : `${a.d} ${a.m} – ${b.d} ${b.m}`;
+        // סליחות: אלול = נץ − 90, ג׳–ט׳ תשרי = נץ − 100
+        const hm=cj[1].hm, hd=parseInt(cj[1].hd,10), sel=[];
+        for(let i=0;i<nzW.length;i++){
+          let m=hm, dd=hd+i;
+          if(m==='Elul'&&dd>29){ m='Tishrei'; dd-=29; }
+          const k = m==='Elul' ? -90 : (m==='Tishrei'&&dd>=3&&dd<=9 ? -100 : null);
+          if(k!==null) sel.push(add(new Date(nzW[i]),k));
+        }
+        const rs = $('#rowSel');
+        if(sel.length){ rs.classList.remove('hidden'); setVal('sel_time', range(sel)); }
+        else rs.classList.add('hidden');
+      }catch(e){}
+
+      applySeason();
+      say('הזמנים עודכנו. אפשר להוריד תמונה.');
+    }catch(err){ say('לא ניתן להתחבר ל‑Hebcal ('+err.message+'). אפשר למלא ידנית.'); }
+  }
+  $('#btnUpdate').addEventListener('click', update);
+
+  $('#btnPng').addEventListener('click', async ()=>{
+    if(typeof html2canvas!=='function'){ say('ספריית התמונה לא נטענה — נסה רענון, או צלם מסך.'); return; }
+    say('מייצר תמונה…');
+    try{
+      const cv = await html2canvas($('#card'), {scale:1, backgroundColor:'#FCFAF4', logging:false, useCORS:true});
+      const a = document.createElement('a');
+      a.download = 'loach-shabbat.png';
+      a.href = cv.toDataURL('image/png');
+      a.click();
+      say('התמונה הורדה — אפשר לשלוח בוואטסאפ.');
+    }catch(e){ say('יצירת התמונה נכשלה: '+e.message); }
+  });
+
+  function fit(){
+    const box=$('.in'), inner=$('#fit');
+    inner.style.transform='none';
+    inner.style.transform='scale('+Math.min(1, box.clientHeight/inner.scrollHeight)+')';
+  }
+  document.addEventListener('input', fit);
+  window.addEventListener('resize', fit);
+  $('#btnUpdate').addEventListener('click', ()=>setTimeout(fit, 1200));
+  applySeason(); fit();
+  if(document.fonts) document.fonts.ready.then(fit);
+})();
+</script>
+</body>
+</html>
