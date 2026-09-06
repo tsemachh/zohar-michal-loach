@@ -55,6 +55,8 @@
 <body>
 <div class="toolbar no-print">
   <button class="primary" id="btnUpdate">עדכן זמנים לשבת הקרובה</button>
+  <button id="btnPrev" title="שבת קודמת">−</button>
+  <button id="btnNext" title="שבת הבאה">+</button>
   <button id="btnPng">הורד תמונה לוואטסאפ</button>
   <button id="btnSeason">שעון קיץ</button>
   <span class="status" id="status">כל שורה ניתנת לעריכה בלחיצה ישירה.</span>
@@ -153,7 +155,7 @@
   async function update(){
     say('מתעדכן…');
     try{
-      const z = await ZM.compute();
+      const z = await ZM.compute(weekOffset);
       season = z.season;
 
       setVal('e_candles', z.candles);
@@ -192,7 +194,10 @@
       say('הזמנים עודכנו. אפשר להוריד תמונה.');
     }catch(err){ say('לא ניתן להתחבר ל‑Hebcal ('+err.message+'). אפשר למלא ידנית.'); }
   }
-  $('#btnUpdate').addEventListener('click', update);
+  let weekOffset = 0;
+  $('#btnUpdate').addEventListener('click', ()=>{ weekOffset = 0; update(); });
+  $('#btnPrev').addEventListener('click', ()=>{ weekOffset--; update(); });
+  $('#btnNext').addEventListener('click', ()=>{ weekOffset++; update(); });
 
   $('#btnPng').addEventListener('click', async ()=>{
     if(typeof html2canvas!=='function'){ say('ספריית התמונה לא נטענה — נסה רענון, או צלם מסך.'); return; }

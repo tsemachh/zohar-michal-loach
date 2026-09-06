@@ -72,6 +72,8 @@
 
 <div class="toolbar no-print">
   <button class="primary" id="btnUpdate">עדכן זמנים לשבוע הקרוב</button>
+  <button id="btnPrev" title="שבת קודמת">−</button>
+  <button id="btnNext" title="שבת הבאה">+</button>
   <button class="season" id="btnSeason">שעון קיץ</button>
   <label class="filebtn">בחר תמונת רקע<input type="file" id="bgInput" accept="image/*"></label>
   <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
@@ -195,7 +197,7 @@
   async function update(){
     say('מתעדכן מ‑Hebcal…');
     try{
-      const z = await ZM.compute();
+      const z = await ZM.compute(weekOffset);
       season = z.season;
 
       /* ערב שבת */
@@ -260,7 +262,10 @@
       say('לא ניתן להתחבר ל‑Hebcal (' + err.message + '). ניתן למלא ידנית.');
     }
   }
-  $('#btnUpdate').addEventListener('click', update);
+  let weekOffset = 0;
+  $('#btnUpdate').addEventListener('click', ()=>{ weekOffset = 0; update(); });
+  $('#btnPrev').addEventListener('click', ()=>{ weekOffset--; update(); });
+  $('#btnNext').addEventListener('click', ()=>{ weekOffset++; update(); });
 
   $('#btnPrint').addEventListener('click', ()=>{ fit(); window.print(); });
   $('#btnReset').addEventListener('click', ()=>{

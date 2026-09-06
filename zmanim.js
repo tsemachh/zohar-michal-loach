@@ -1,7 +1,8 @@
 /* zmanim.js — כל ההיגיון ההלכתי של לוחות בית הכנסת זוהר מיכל, במקום אחד.
  *
  * שימוש:
- *   const z = await ZM.compute();      // מחשב את השבת הקרובה ואת שבוע החול שאחריה
+ *   const z = await ZM.compute();      // השבת הקרובה ושבוע החול שאחריה
+ *   const z = await ZM.compute(1);     // שבוע קדימה,  compute(-1) שבוע אחורה
  *   z.candles, z.shabbat.netzStart, z.weekday.arvit ...
  *
  * שיטת הזמנים: לוח אור החיים, ירושלים.
@@ -66,8 +67,8 @@ window.ZM = (function(){
   }
 
   /* ---------- החישוב המרכזי ---------- */
-  async function compute(){
-    const sat0 = upcomingSaturday();
+  async function compute(weekOffset){
+    const sat0 = add(upcomingSaturday(), (weekOffset||0)*7*1440);
     const sat = ymd(sat0), fri = ymd(add(sat0,-1440)), end = ymd(add(sat0,6*1440));
     const q = `https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${fri}&end=${end}`;
     const [z, zu] = await Promise.all([jget(q), jget(q+'&ue=on')]);
