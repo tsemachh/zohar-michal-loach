@@ -82,49 +82,97 @@ PALETTE = {
 
 
 # מוטיבים מצוירים לכל חג — קו נקי, ללא מילוי
-# קישוטי רקע — סמלים קטנים בשוליים הריקים, מאחורי התוכן
+# קישוטי רקע מאוירים — סמלי החג בצבע מלא, מאחורי התוכן ובשוליים הריקים
 SYMBOLS = """<defs>
-  <g id="pom" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="0" cy="4" r="13"/>
-    <path d="M-8 -7 l3 -9 l4 7 l4 -7 l3 9"/>
+  <g id="rimon">
+    <path d="M0 -14 C 14 -14, 20 -2, 20 8 C 20 20, 11 28, 0 28 C -11 28, -20 20, -20 8 C -20 -2, -14 -14, 0 -14 Z" fill="#B4372E"/>
+    <path d="M-9 6 C -9 0, -4 -4, 0 -4 C 4 -4, 9 0, 9 6 C 9 14, 4 19, 0 19 C -4 19, -9 14, -9 6 Z" fill="#8E2A22" opacity=".55"/>
+    <circle cx="-5" cy="8" r="2.1" fill="#F2D9C8" opacity=".8"/><circle cx="4" cy="11" r="2.1" fill="#F2D9C8" opacity=".8"/>
+    <circle cx="0" cy="3" r="1.9" fill="#F2D9C8" opacity=".7"/>
+    <path d="M-8 -13 l3 -9 l5 6 l5 -8 l4 10 Z" fill="#4B7A47"/>
+    <path d="M2 -18 C 12 -26, 22 -25, 26 -20 C 20 -14, 9 -14, 2 -18 Z" fill="#5B8C50"/>
   </g>
-  <g id="shofar" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M-17 -3 C -8 12, 12 13, 20 1 L 17 -3 C 6 6, -6 4, -12 -8 Z"/>
+  <g id="shofar2">
+    <path d="M-36 0 C -20 20, 14 28, 38 14 L 28 0 C 8 12, -16 8, -30 -3 Z" fill="#B07A2B"/>
+    <path d="M-28 2 C -12 14, 12 18, 30 8" fill="none" stroke="#8A5A1E" stroke-width="1.8" opacity=".55"/>
+    <path d="M38 14 L 28 0 C 33 -2, 38 0, 40 4 C 41 8, 40 12, 38 14 Z" fill="#8A5A1E"/>
+    <circle cx="-33" cy="-1" r="3.4" fill="#8A5A1E"/>
   </g>
-  <g id="etrog" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-    <ellipse cx="0" cy="2" rx="9" ry="12"/>
-    <path d="M0 -10 v-5"/>
+  <g id="dvash">
+    <path d="M-13 -6 h26 l-3 26 a13 13 0 0 1 -20 0 Z" fill="#D9A227"/>
+    <rect x="-15" y="-11" width="30" height="6" rx="2" fill="#8A5A1E"/>
+    <path d="M-9 2 h18 l-1 8 h-16 Z" fill="#F0C75B" opacity=".7"/>
+    <path d="M12 -14 l7 -7 l3 3 l-7 7 Z" fill="#8A5A1E"/>
   </g>
-  <g id="lulav" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M0 -16 C -4 -2, -5 10, -2 18"/>
-    <path d="M0 -16 C 5 -3, 7 9, 4 18"/>
-    <path d="M0 -16 C -6 -3, -8 9, -6 18" opacity=".8"/>
+  <g id="tapuach">
+    <circle cx="0" cy="4" r="15" fill="#C0463A"/>
+    <path d="M-6 -2 a8 8 0 0 1 6 -5" fill="none" stroke="#F0C9BE" stroke-width="2.4" opacity=".7" stroke-linecap="round"/>
+    <path d="M0 -11 v-7" stroke="#6B4423" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M1 -15 C 8 -22, 17 -21, 20 -17 C 15 -12, 6 -12, 1 -15 Z" fill="#4B7A47"/>
   </g>
-  <g id="schach" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-    <path d="M-14 8 h28"/>
-    <path d="M-11 8 l7 -12 M-3 8 l7 -12 M5 8 l7 -12"/>
+  <g id="machzor">
+    <path d="M-16 -12 h32 v26 h-32 Z" fill="#1F4E5F"/>
+    <path d="M-16 -12 h32 v3 h-32 Z" fill="#173C4A"/>
+    <path d="M-12 -8 h24 v18 h-24 Z" fill="#F3EFE3" opacity=".85"/>
+    <path d="M0 -8 v18" stroke="#C9C2AE" stroke-width="1.4"/>
+    <path d="M-16 14 h32 v3 h-32 Z" fill="#9C7A2E"/>
+  </g>
+  <g id="etrog2">
+    <ellipse cx="0" cy="4" rx="13" ry="17" fill="#D9A82A"/>
+    <ellipse cx="-4" cy="0" rx="5" ry="7" fill="#F0CB63" opacity=".55"/>
+    <path d="M0 -13 v-7" stroke="#8A6A1E" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g id="lulav2">
+    <path d="M0 26 V -30" fill="none" stroke="#2F6136" stroke-width="4" stroke-linecap="round"/>
+    <path d="M0 -30 C -11 -12, -14 6, -10 22" fill="none" stroke="#3E7A45" stroke-width="5" stroke-linecap="round"/>
+    <path d="M0 -30 C 11 -12, 14 6, 10 22" fill="none" stroke="#5A9450" stroke-width="5" stroke-linecap="round"/>
+    <rect x="-9" y="18" width="18" height="6" rx="2" fill="#A8792A"/>
+  </g>
+  <g id="hadas">
+    <path d="M0 26 V -22" stroke="#3E7A45" stroke-width="3" stroke-linecap="round"/>
+    <g fill="#5A9450">
+      <ellipse cx="-8" cy="-12" rx="7" ry="4" transform="rotate(-25 -8 -12)"/>
+      <ellipse cx="8" cy="-4" rx="7" ry="4" transform="rotate(25 8 -4)"/>
+      <ellipse cx="-8" cy="4" rx="7" ry="4" transform="rotate(-25 -8 4)"/>
+      <ellipse cx="8" cy="12" rx="7" ry="4" transform="rotate(25 8 12)"/>
+    </g>
+  </g>
+  <g id="sukka">
+    <rect x="-22" y="-4" width="4" height="30" fill="#8A5A2B"/>
+    <rect x="18" y="-4" width="4" height="30" fill="#8A5A2B"/>
+    <rect x="-26" y="-8" width="52" height="5" rx="1.5" fill="#8A5A2B"/>
+    <g stroke="#4F7A3A" stroke-width="3" stroke-linecap="round">
+      <path d="M-24 -10 l8 -12"/><path d="M-12 -10 l8 -12"/><path d="M0 -10 l8 -12"/><path d="M12 -10 l8 -12"/>
+    </g>
+    <circle cx="-8" cy="6" r="4.5" fill="#C0463A"/>
+    <circle cx="7" cy="10" r="4" fill="#D9A82A"/>
+  </g>
+  <g id="anavim">
+    <g fill="#6B3A6E">
+      <circle cx="0" cy="-2" r="5"/><circle cx="-9" cy="4" r="5"/><circle cx="9" cy="4" r="5"/>
+      <circle cx="-4" cy="12" r="5"/><circle cx="5" cy="12" r="5"/><circle cx="0" cy="20" r="5"/>
+    </g>
+    <path d="M0 -8 v-8" stroke="#6B4423" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M1 -14 C 9 -22, 19 -21, 22 -16 C 16 -11, 6 -11, 1 -14 Z" fill="#4B7A47"/>
   </g>
 </defs>"""
 
-MOTIFS = {
- 'noraim':  ['pom','shofar','pom','shofar','pom'],
- 'sukkot':  ['etrog','lulav','schach','lulav','etrog'],
+# (סמל, x, y, קנה מידה, שקיפות)
+DECO = {
+ 'noraim': [('rimon',96,140,1.55,.95), ('tapuach',700,138,1.5,.95),
+            ('shofar2',214,1076,1.0,.9), ('dvash',578,1072,.95,.9)],
+ 'sukkot': [('lulav2',88,150,1.2,.95), ('etrog2',128,186,1.05,.95),
+            ('sukka',700,158,1.2,.95), ('anavim',48,470,.9,.7),
+            ('hadas',746,470,.9,.7), ('rimon',48,762,.8,.65),
+            ('etrog2',746,762,.8,.65), ('anavim',48,1050,.75,.6),
+            ('lulav2',746,1050,.7,.6)],
 }
 
 def motif_layer(accent):
-    """סמלים קטנים לאורך שני השוליים, בשקיפות נמוכה."""
-    names = MOTIFS[accent]
-    ys = [176, 386, 596, 806, 1016]
-    out = ['<svg class="frame deco" viewBox="0 0 794 1122" aria-hidden="true" style="color:var(--accent)">', SYMBOLS, '<g opacity="0.34">']
-    for i, y in enumerate(ys):
-        n = names[i % len(names)]
-        out.append('<use href="#%s" transform="translate(46 %d) scale(0.86)"/>' % (n, y))
-        out.append('<use href="#%s" transform="translate(748 %d) scale(0.86)"/>' % (names[(i+2) % len(names)], y))
-    out.append('</g>')
-    out.append('<g opacity="0.26">')
-    for i, x in enumerate([317, 397, 477]):
-        out.append('<use href="#%s" transform="translate(%d 1080) scale(0.62)"/>' % (names[i % len(names)], x))
-    out.append('</g></svg>')
+    out = ['<svg class="frame deco" viewBox="0 0 794 1122" aria-hidden="true">', SYMBOLS]
+    for name, x, y, sc, op in DECO[accent]:
+        out.append('<use href="#%s" transform="translate(%d %d) scale(%s)" opacity="%s"/>' % (name, x, y, sc, op))
+    out.append('</svg>')
     return '\n  '.join(out)
 
 CSS = """
