@@ -26,23 +26,24 @@
   #fit{transform-origin:top center}
 
   .org{text-align:center;font-size:26px;font-weight:600;color:var(--deep);letter-spacing:.02em}
-  h1{margin:8px 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:74px;line-height:1.05;color:var(--hl)}
-  .hdate{text-align:center;font-size:30px;color:#7b6c56;margin-top:6px}
-  .rule{display:flex;align-items:center;gap:16px;margin:12px 0 14px}
+  h1{margin:6px 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:66px;line-height:1.03;color:var(--hl)}
+  .hdate{text-align:center;font-size:28px;color:#7b6c56;margin-top:4px}
+  .rule{display:flex;align-items:center;gap:16px;margin:10px 0 12px}
   .rule i{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
   .rule b{width:12px;height:12px;background:var(--accent);transform:rotate(45deg)}
 
-  .sec{margin-bottom:12px}
+  .sec{margin-bottom:10px}
   .sec h2{margin:0 0 4px;font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:40px;line-height:1.1;color:var(--deep);border-bottom:3px solid var(--deep);padding-bottom:5px;display:flex;justify-content:space-between;align-items:baseline}
   .sec.hl h2{color:var(--hl);border-bottom-color:var(--hl)}
   .sec h2 em{font-family:'Assistant',sans-serif;font-style:normal;font-size:24px;font-weight:600;color:#8a7a62}
-  .r{display:flex;align-items:baseline;gap:14px;padding:2px 0;font-size:37px;line-height:1.12}
+  .r{display:flex;align-items:baseline;gap:14px;padding:1px 0;font-size:37px;line-height:1.1}
   .r .l{flex:1}
   .r .l small{font-size:26px;color:#7b6c56}
   .r .t{flex:0 0 auto;min-width:150px;text-align:left;direction:ltr;unicode-bidi:isolate;white-space:nowrap;
         font-weight:700;font-size:42px;color:var(--deep);font-variant-numeric:tabular-nums}
   .r .t.acc{color:var(--accent);font-size:34px}
-  .note{font-size:30px;color:#3d3021;padding:3px 0}
+  .note{font-size:28px;color:#3d3021;padding:3px 0;line-height:1.2}
+  .note b{font-weight:700}
   .note b{color:var(--hl)}
   .foot{text-align:center;margin-top:14px;padding-top:10px;border-top:2px solid rgba(36,29,22,.25);font-family:'Frank Ruhl Libre',serif;font-size:32px;font-weight:700;color:var(--deep)}
   .foot small{display:block;font-family:'Assistant',sans-serif;font-weight:400;font-size:22px;color:#9c8c74;margin-top:2px}
@@ -115,6 +116,8 @@
       <div class="r"><span class="l">מנחה קטנה <small>וסעודה שלישית</small></span><span class="t" contenteditable data-k="s_mincha2">—</span></div>
       <div class="r"><span class="l">ערבית <small>10 דק׳ קודם צאת השבת</small></span><span class="t" contenteditable data-k="m_arvit">—</span></div>
       <div class="r"><span class="l">צאת השבת <small>ר״ת</small> <span class="t acc" data-k="m_rt"></span></span><span class="t" contenteditable data-k="m_tzeit">—</span></div>
+      <div class="note" contenteditable>קידוש <b>לאחר שחרית מניין ב׳</b> · תהילים לילדים <b>לאחר מנחה גדולה</b></div>
+      <div class="note" contenteditable>שיעורים · הרב אסף <b>לאחר שחרית</b> · הרב בן דהן <b>לאחר מנחה גדולה</b> · הרב מרציאנו <b data-k="s_shiur2">—</b></div>
     </div>
 
     <div class="sec">
@@ -163,6 +166,7 @@
       if(z.shabbat.netz) setVal('s_netzp', '(נץ '+z.shabbat.netz+')');
       setVal('s_shmaGRA',  z.shabbat.shmaMGA);
       setVal('s_mincha2',  z.shabbat.minchaKetana);
+      setVal('s_shiur2',   z.shabbat.shiurBefore);
       setVal('m_tzeit',    z.motzash.tzeit);
       setVal('m_arvit',    z.motzash.arvit);
       if(z.motzash.rt) setVal('m_rt', '(ר״ת '+z.motzash.rt+')');
