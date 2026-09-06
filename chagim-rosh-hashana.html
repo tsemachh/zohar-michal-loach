@@ -77,6 +77,8 @@
 <body>
 <div class="toolbar no-print">
   <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
+  <button id="btnPng">הורד תמונה לוואטסאפ</button>
+  <span class="status" id="status"></span>
   <span class="status">כל שעה וכל שורה ניתנות לעריכה בלחיצה ישירה.</span>
 </div>
 <div id="stage">
@@ -272,9 +274,11 @@
   </div>
 </div>
 </div>
+<script src="png-export.js"></script>
 <script>
 (function(){
   document.getElementById('btnPrint').addEventListener('click', function(){ fit(); window.print(); });
+  PNG.attach('btnPng', '.page', 'loach-yamim-noraim', 2);
   function fit(){
     var box=document.querySelector('.content'), inner=document.getElementById('fit');
     inner.style.transform='none';

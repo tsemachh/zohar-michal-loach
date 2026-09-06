@@ -77,6 +77,7 @@
   <button class="season" id="btnSeason">שעון קיץ</button>
   <label class="filebtn">בחר תמונת רקע<input type="file" id="bgInput" accept="image/*"></label>
   <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
+  <button id="btnPng">הורד תמונה לוואטסאפ</button>
   <button id="btnReset">איפוס עריכות</button>
   <a class="doc" href="https://github.com/tsemachh/zohar-michal-loach/blob/main/README.md" target="_blank" rel="noopener">הוראות שימוש</a>
   <span class="status" id="status">כל שעה וכל כותרת ניתנות לעריכה בלחיצה ישירה.</span>
@@ -142,6 +143,7 @@
 </div>
 
 <script src="zmanim.js"></script>
+<script src="png-export.js"></script>
 <script>
 (function(){
   const GEO = 281184;
@@ -287,6 +289,7 @@
   window.addEventListener('beforeprint', ()=>{ $('#page').style.transform='none'; fit(); });
   window.addEventListener('afterprint', stageScale);
 
+  PNG.attach('btnPng', '#page', 'loach-shabbat', 2);
   loadFields(); applySeason(); stageScale(); fit();
   document.fonts && document.fonts.ready.then(()=>{ stageScale(); fit(); });
 })();

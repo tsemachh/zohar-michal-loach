@@ -134,8 +134,8 @@
 </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="zmanim.js"></script>
+<script src="png-export.js"></script>
 <script>
 (function(){
   const $ = s => document.querySelector(s);
@@ -199,18 +199,7 @@
   $('#btnPrev').addEventListener('click', ()=>{ weekOffset--; update(); });
   $('#btnNext').addEventListener('click', ()=>{ weekOffset++; update(); });
 
-  $('#btnPng').addEventListener('click', async ()=>{
-    if(typeof html2canvas!=='function'){ say('ספריית התמונה לא נטענה — נסה רענון, או צלם מסך.'); return; }
-    say('מייצר תמונה…');
-    try{
-      const cv = await html2canvas($('#card'), {scale:1, backgroundColor:'#FCFAF4', logging:false, useCORS:true});
-      const a = document.createElement('a');
-      a.download = 'loach-shabbat.png';
-      a.href = cv.toDataURL('image/png');
-      a.click();
-      say('התמונה הורדה — אפשר לשלוח בוואטסאפ.');
-    }catch(e){ say('יצירת התמונה נכשלה: '+e.message); }
-  });
+  PNG.attach('btnPng', '#card', 'loach-shabbat-image', 1);
 
   function fit(){
     const box=$('.in'), inner=$('#fit');

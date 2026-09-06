@@ -12,7 +12,7 @@ ADDR = 'רח׳ זאב פאלק 18, חומת שמואל, ירושלים'
 # כל "יום" = מועד.  rows = (תווית, מניין נץ, מניין רגיל)
 PAGES = [
  {
-  'file': 'chagim-rosh-hashana.html', 'cols': 2, 'accent': 'noraim',
+  'file': 'chagim-rosh-hashana.html', 'cols': 2, 'accent': 'noraim', 'png': 'loach-yamim-noraim',
   'pad': {'padt':'10mm','padb':'9mm','padx':'11mm'},
   'title': 'לוח זמנים לימים הנוראים',
   'sub': 'ראש השנה · צום גדליה · שבת שובה · יום הכיפורים',
@@ -57,7 +57,7 @@ PAGES = [
             ('נעילה','','18:00'),('צאת החג וסיום הצום','','19:12')]},
   ]},
  {
-  'file': 'chagim-sukkot.html', 'cols': 1, 'accent': 'sukkot',
+  'file': 'chagim-sukkot.html', 'cols': 1, 'accent': 'sukkot', 'png': 'loach-sukkot',
   'pad': {'padt':'11mm','padb':'10mm','padx':'15mm'},
   'title': 'לוח זמנים לחגי הסוכות',
   'sub': 'סוכות · חול המועד · הושענא רבה · שמחת תורה',
@@ -318,6 +318,8 @@ TPL = """<!DOCTYPE html>
 <body>
 <div class="toolbar no-print">
   <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
+  <button id="btnPng">הורד תמונה לוואטסאפ</button>
+  <span class="status" id="status"></span>
   <span class="status">כל שעה וכל שורה ניתנות לעריכה בלחיצה ישירה.</span>
 </div>
 <div id="stage">
@@ -339,9 +341,11 @@ TPL = """<!DOCTYPE html>
   </div>
 </div>
 </div>
+<script src="png-export.js"></script>
 <script>
 (function(){{
   document.getElementById('btnPrint').addEventListener('click', function(){{ fit(); window.print(); }});
+  PNG.attach('btnPng', '.page', '{pngname}', 2);
   function fit(){{
     var box=document.querySelector('.content'), inner=document.getElementById('fit');
     inner.style.transform='none';
@@ -364,7 +368,7 @@ for pg in PAGES:
     pal = PALETTE[pg['accent']]
     days = '\n        '.join(day_html(d) for d in pg['days'])
     html = TPL.format(title=pg['title'], year=YEAR, sub=pg['sub'], css=CSS, days=days,
-                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, deco=motif_layer(pg['accent']),
+                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, pngname=pg['png'], deco=motif_layer(pg['accent']),
                       gridcls=' one' if pg.get('cols',2)==1 else '',
                       **dict(pal, **pg.get('pad', {'padt':'17mm','padb':'15mm','padx':'17mm'})))
     with io.open(os.path.join(here, pg['file']), 'w', encoding='utf-8') as f:
