@@ -132,108 +132,61 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="zmanim.js"></script>
 <script>
 (function(){
-  const GEO = 281184, TZ = 'Asia/Jerusalem';
   const $ = s => document.querySelector(s);
   const say = t => $('#status').textContent = t;
-  const hhmm = d => new Intl.DateTimeFormat('he-IL',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:TZ}).format(d);
-  const ymd  = d => new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:TZ}).format(d);
-  const add  = (d,m) => new Date(d.getTime()+m*60000);
-  const nonik = t => (t||'').replace(/[\u0591-\u05BD\u05BF-\u05C7]/g,'');
-  const setVal = (k,v) => { const e=document.querySelector(`[data-k="${k}"]`); if(e&&v) e.textContent=nonik(v); };
-  const getVal = k => { const e=document.querySelector(`[data-k="${k}"]`); return e?e.textContent.trim():''; };
-  const range = arr => { const v=arr.filter(Boolean).map(x=>hhmm(new Date(x))); if(!v.length) return null;
-                         return v[0]===v[v.length-1] ? v[0] : `${v[0]}\u00A0→\u00A0${v[v.length-1]}`; };
-  const rangeShift = (a,m) => range(a.filter(Boolean).map(x=>add(new Date(x),m)));
-  const pick = (T,k,ds) => ds.map(d=>T[k]&&T[k][d]).filter(Boolean);
-  const isDST = d => /\+3/.test(new Intl.DateTimeFormat('en-US',{timeZone:TZ,timeZoneName:'shortOffset'}).format(d||new Date()));
+  const setVal = (k,v) => { const e=document.querySelector(`[data-k="${k}"]`); if(e&&v) e.textContent=v; };
 
-  function upcomingSaturday(){
-    const p = ymd(new Date()).split('-').map(Number);
-    const d = new Date(Date.UTC(p[0], p[1]-1, p[2], 12, 0, 0));
-    d.setUTCDate(d.getUTCDate() + ((6 - d.getUTCDay() + 7) % 7));
-    return d;
-  }
-  async function parashaName(sat){
-    try{
-      const j = await (await fetch(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${sat}&end=${sat}&s=on&maj=on&min=off&mod=off&nx=off&geo=none&lg=he`)).json();
-      const it = (j.items||[]);
-      const par = it.find(i=>i.category==='parashat') || it.find(i=>i.category==='holiday');
-      return par ? (par.hebrew || par.title) : null;
-    }catch(e){ return null; }
-  }
-
-  let season = isDST() ? 'summer' : 'winter';
+  let season = ZM.isIsraelDST() ? 'summer' : 'winter';
   function applySeason(){
     const sum = season==='summer';
     $('#btnSeason').textContent = sum ? 'שעון קיץ' : 'שעון חורף';
     $('#rowEarly').classList.toggle('hidden', !sum);
     setVal('s_minchaGed', sum ? '13:15' : '13:00');
+    fit();
   }
   $('#btnSeason').addEventListener('click', ()=>{ season = season==='summer'?'winter':'summer'; applySeason(); });
 
   async function update(){
     say('מתעדכן…');
     try{
-      const havdalah = upcomingSaturday();
-      const friYmd = ymd(add(havdalah,-1440)), endYmd = ymd(add(havdalah,6*1440));
-      const q = `https://www.hebcal.com/zmanim?cfg=json&geonameid=${GEO}&start=${friYmd}&end=${endYmd}`;
-      const rs = await Promise.all([fetch(q), fetch(q+'&ue=on')]);
-      const js = await Promise.all(rs.map(r=>r.json()));
-      const T = js[0].times||{}, U = js[1].times||{};
-      const fri = friYmd, sat = ymd(havdalah), week=[], sunThu=[];
-      for(let i=1;i<=6;i++){ const d=ymd(add(havdalah,i*1440)); week.push(d); if(i<=5) sunThu.push(d); }
-      const D = (o,k,d) => o[k]&&o[k][d] ? new Date(o[k][d]) : null;
-      const zman = d => { const a=D(T,'sunrise',d), b=D(T,'sunset',d); return (a&&b)?(b-a)/43200000:1; };
+      const z = await ZM.compute();
+      season = z.season;
 
-      season = isDST(havdalah) ? 'summer' : 'winter';
-      const visFri = D(U,'sunset',fri), visSat = D(U,'sunset',sat);
-      const cnd = add(visFri,-40);
-      setVal('e_candles', hhmm(cnd));
-      setVal('e_early',   hhmm(add(cnd,-60)));
-      setVal('e_mincha',  hhmm(add(cnd, 20)));
+      setVal('e_candles', z.candles);
+      setVal('e_early',   z.early);
+      setVal('e_mincha',  z.minchaKab);
 
-      const nzS = D(T,'sunrise',sat);
-      if(nzS){ setVal('s_netz', hhmm(add(nzS,-60))); setVal('s_netzp','(נץ '+hhmm(nzS)+')'); }
-      const shma = D(U,'sofZmanShmaMGA',sat);
-      setVal('s_shmaGRA', shma?hhmm(shma):null);
-      const mk = new Date(Math.round(add(cnd,-20).getTime()/900000)*900000);
-      setVal('s_mincha2', hhmm(mk));
-      const tz = add(visSat,30);
-      setVal('m_tzeit', hhmm(tz));
-      setVal('m_arvit', hhmm(add(tz,-10)));
-      setVal('m_rt', '(ר״ת '+hhmm(add(visSat, 72.5*zman(sat)))+')');
+      setVal('s_netz', z.shabbat.netzStart);
+      if(z.shabbat.netz) setVal('s_netzp', '(נץ '+z.shabbat.netz+')');
+      setVal('s_shmaGRA',  z.shabbat.shmaMGA);
+      setVal('s_mincha2',  z.shabbat.minchaKetana);
+      setVal('m_tzeit',    z.motzash.tzeit);
+      setVal('m_arvit',    z.motzash.arvit);
+      if(z.motzash.rt) setVal('m_rt', '(ר״ת '+z.motzash.rt+')');
 
-      const nzW = pick(T,'sunrise',week);
-      setVal('w_netz',   rangeShift(nzW,-30));
-      const np = document.querySelector('[data-k="w_netzp"]');
-      if(np) np.textContent = '(נץ '+range(nzW)+')';
-      setVal('w_mincha', rangeShift(pick(T,'sunset',sunThu), -20));
-      setVal('w_arvit',  range(sunThu.map(d=>{ const v=D(U,'sunset',d); return v?add(v,14.5*zman(d)):null; }).filter(Boolean)));
+      setVal('w_netz', z.weekday.netzStart);
+      if(z.weekday.netz) setVal('w_netzp', '(נץ '+z.weekday.netz+')');
+      setVal('w_mincha', z.weekday.mincha);
+      setVal('w_arvit',  z.weekday.arvit);
 
-      const parName = await parashaName(sat);
-      if(parName) setVal('parasha', parName);
-      try{
-        const cj = await Promise.all([sat, week[0], week[5]].map(d=>fetch(`https://www.hebcal.com/converter?cfg=json&date=${d}&g2h=1&strict=1&lg=he`).then(r=>r.json())));
-        setVal('hebdate', cj[0].hebrew);
-        const P = h => { const t=nonik(h||'').split(/\s+/); return {d:t[0]||'',m:t[1]||''}; };
-        const a=P(cj[1].hebrew), b=P(cj[2].hebrew), el=$('#wDates');
-        if(el&&a.d&&b.d) el.textContent = (a.m===b.m) ? `${a.d}–${b.d} ${a.m}` : `${a.d} ${a.m} – ${b.d} ${b.m}`;
-        // סליחות: אלול = נץ − 90, ג׳–ט׳ תשרי = נץ − 100
-        const hm=cj[1].hm, hd=parseInt(cj[1].hd,10), sel=[];
-        for(let i=0;i<nzW.length;i++){
-          let m=hm, dd=hd+i;
-          if(m==='Elul'&&dd>29){ m='Tishrei'; dd-=29; }
-          const k = m==='Elul' ? -90 : (m==='Tishrei'&&dd>=3&&dd<=9 ? -100 : null);
-          if(k!==null) sel.push(add(new Date(nzW[i]),k));
-        }
-        const rs = $('#rowSel');
-        if(sel.length){ rs.classList.remove('hidden'); setVal('sel_time', range(sel)); }
-        else rs.classList.add('hidden');
-      }catch(e){}
+      if(z.parasha) setVal('parasha', z.parasha);
+      if(z.dates.hebrew) setVal('hebdate', z.dates.hebrew);
+      const a=z.dates.weekFrom, b=z.dates.weekTo, el=$('#wDates');
+      if(el && a && b){
+        const P = h => { const t=(h||'').split(/\s+/); return {d:t[0]||'', m:t[1]||''}; };
+        const x=P(a.full), y=P(b.full);
+        el.textContent = (x.m===y.m) ? `${x.d}–${y.d} ${x.m}` : `${x.d} ${x.m} – ${y.d} ${y.m}`;
+      }
+
+      const rowSel = $('#rowSel');
+      if(z.weekday.selichot){ rowSel.classList.remove('hidden'); setVal('sel_time', z.weekday.selichot.time); }
+      else rowSel.classList.add('hidden');
 
       applySeason();
+      setTimeout(fit, 50);
       say('הזמנים עודכנו. אפשר להוריד תמונה.');
     }catch(err){ say('לא ניתן להתחבר ל‑Hebcal ('+err.message+'). אפשר למלא ידנית.'); }
   }
