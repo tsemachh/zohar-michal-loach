@@ -13,7 +13,7 @@ ADDR = 'רח׳ זאב פאלק 18, חומת שמואל, ירושלים'
 PAGES = [
  {
   'file': 'chagim-rosh-hashana.html', 'cols': 2, 'accent': 'noraim',
-  'pad': {'padt':'11mm','padb':'10mm','padx':'12mm'},
+  'pad': {'padt':'10mm','padb':'9mm','padx':'11mm'},
   'title': 'לוח זמנים לימים הנוראים',
   'sub': 'ראש השנה · צום גדליה · שבת שובה · יום הכיפורים',
   'foot': 'כתיבה וחתימה טובה',
@@ -31,13 +31,16 @@ PAGES = [
     'sky':'זריחה 06:20 · שקיעה 18:53 · צאת הכוכבים 19:08',
     'rows':[('שחרית','יפורסם בנפרד','07:00'),('תקיעת שופר · משוער','','10:00'),
             ('שיעור גמרא · הרב בן דהאן','','17:15'),('מנחה','','18:15'),
-            ('שיעור','','18:45'),('ערבית','','19:00')]},
+            ('שיעור','','18:45'),('ערבית · 10 דק׳ קודם צאת החג','','19:12'),
+            ('צאת החג','','19:22')]},
    {'name':'צום גדליה','day':'שני','date':'ג׳ תשרי · 14.9.26',
     'sky':'זריחה 06:21 · שקיעה 18:51 · צאת הכוכבים 19:06',
     'rows':[('סליחות','04:50','05:45'),('שחרית · הודו','06:00','07:00'),
             ('מנחה וערבית','','18:15')]},
    {'name':'עשרת ימי תשובה','day':'ימי חול','date':'ג׳–ט׳ תשרי',
-    'rows':[('סליחות','04:50','05:45'),('שחרית · הודו','06:05','07:00')]},
+    'rows':[('סליחות','04:50','05:45'),('שחרית · הודו','06:05','07:00'),
+            ('מנחה · 20 דק׳ קודם השקיעה','','18:27 → 18:23'),
+            ('ערבית · צאת הכוכבים','','19:06 → 19:02')]},
    {'name':'שבת שובה','day':'שבת קודש','date':'ז׳–ח׳ תשרי · 18–19.9.26','hl':True,
     'sky':'זריחה 06:24 · שקיעה 18:44 · צאת השבת 18:59',
     'rows':[('מנחה וקבלת שבת','','18:24'),('שחרית · קרבנות','05:25','07:30'),
@@ -195,7 +198,7 @@ CSS = """
 
   .org{text-align:center;font-size:3.6mm;letter-spacing:.06em;color:var(--deep);font-weight:600}
   .org small{display:block;font-weight:400;font-size:3mm;color:#7b6c56;letter-spacing:0;margin-top:.4mm}
-  h1{margin:2.4mm 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:9.6mm;line-height:1.05;color:var(--deep)}
+  h1{margin:2.4mm 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:9mm;line-height:1.05;color:var(--deep)}
   .sub{text-align:center;font-size:4.1mm;color:#7b6c56;margin-top:1.1mm}
   .rule{display:flex;align-items:center;gap:3mm;margin:2.2mm 0 2.6mm}
   .rule i{flex:1;height:0.35mm;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
@@ -205,7 +208,7 @@ CSS = """
 
   .grid{column-count:2;column-gap:8mm}
   .grid.one{column-count:1}
-  .day{break-inside:avoid;margin:0 0 3.4mm;padding-bottom:.4mm}
+  .day{break-inside:avoid;margin:0 0 2.8mm;padding-bottom:.3mm}
   .dh{display:flex;align-items:baseline;justify-content:space-between;gap:3mm;border-bottom:0.5mm solid var(--deep);padding-bottom:1mm;margin-bottom:1.6mm}
   .dh .nm{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:5.9mm;line-height:1.1;color:var(--deep)}
   .day.hl .dh .nm{color:var(--hl)}
@@ -214,7 +217,7 @@ CSS = """
   .caps{display:flex;gap:2mm;font-size:3.1mm;letter-spacing:.04em;color:#9c8c74;margin-bottom:.6mm}
   .caps i{flex:1}
   .caps span{width:18mm;text-align:center;flex:none}
-  .r{display:flex;align-items:baseline;gap:2mm;padding:.5mm 0;font-size:4.4mm;line-height:1.16}
+  .r{display:flex;align-items:baseline;gap:2mm;padding:.38mm 0;font-size:4.4mm;line-height:1.15}
   .r .l{flex:1}
   .r .dots{flex:none;width:0}
   .r .t{min-width:18mm;flex:0 0 auto;text-align:center;direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-weight:700;font-size:4.6mm;color:#241d16;font-variant-numeric:tabular-nums}
