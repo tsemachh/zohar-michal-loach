@@ -17,13 +17,13 @@ PAGES = [
   'title': 'לוח זמנים לימים הנוראים',
   'sub': 'ראש השנה · צום גדליה · שבת שובה · יום הכיפורים',
   'foot': 'כתיבה וחתימה טובה',
-  'note': 'מניין הנץ בשני ימי ראש השנה מתקיים בגן הילדים · רח׳ יצחק ניסים 102',
   'days': [
    {'name':'ערב ראש השנה','day':'שישי','date':'כ״ט אלול · 11.9.26',
     'sky':'זריחה 06:20 · שקיעה 18:55 · צאת הכוכבים 19:10',
     'rows':[('סליחות','04:50','05:45'),('שחרית · הודו','06:00','07:00'),
             ('התרת נדרים','06:45','07:45'),('מנחה','','18:35')]},
    {'name':'א׳ ראש השנה','day':'שבת קודש','date':'א׳ תשרי · 12.9.26','hl':True,
+    'above':'מניין הנץ בשני ימי ראש השנה מתקיים בגן הילדים · רח׳ יצחק ניסים 102',
     'sky':'זריחה 06:20 · שקיעה 18:53 · צאת הכוכבים 19:08',
     'rows':[('שחרית','05:35','07:00'),('מנחה מוקדמת','','13:30'),
             ('תהילים','','17:00'),('מנחה','','18:00'),('תשליך','','18:30'),
@@ -32,8 +32,7 @@ PAGES = [
     'sky':'זריחה 06:20 · שקיעה 18:53 · צאת הכוכבים 19:08',
     'rows':[('שחרית','05:35','07:00'),('תקיעת שופר · משוער','','10:00'),
             ('שיעור גמרא · הרב בן דהאן','','17:15'),('מנחה','','18:15'),
-            ('שיעור','','18:45'),('ערבית · 10 דק׳ קודם צאת החג','','19:12'),
-            ('צאת החג','','19:22')]},
+            ('שיעור','','18:45'),('ערבית · 10 דק׳ קודם צאת החג (19:22)','','19:12')]},
    {'name':'צום גדליה','day':'שני','date':'ג׳ תשרי · 14.9.26',
     'sky':'זריחה 06:21 · שקיעה 18:51 · צאת הכוכבים 19:06',
     'rows':[('סליחות','04:50','05:45'),('שחרית · הודו','06:00','07:00'),
@@ -240,7 +239,7 @@ CSS = """
   .grid.one .caps{font-size:3.2mm}
   .grid.one .dh .dt{font-size:3.9mm}
 
-  .pgnote{text-align:center;font-size:3.6mm;color:var(--hl);margin-top:2mm;font-weight:600}
+  .abovenote{font-size:3.5mm;line-height:1.25;color:var(--hl);font-weight:600;text-align:center;border:0.3mm solid var(--hl);border-radius:1mm;padding:.9mm 2mm;margin-bottom:1.8mm}
   .foot{text-align:center;margin-top:1.4mm;font-family:'Frank Ruhl Libre',serif;font-size:5mm;font-weight:700;color:var(--deep)}
   .foot small{display:block;font-family:'Assistant',sans-serif;font-weight:400;font-size:3.2mm;color:#9c8c74;margin-top:.8mm}
   [contenteditable]:focus{outline:1.5px dashed var(--accent);outline-offset:2px;background:rgba(156,122,46,.08)}
@@ -279,6 +278,8 @@ def time_cell(t):
 def day_html(d):
     has_netz = any(r[1] for r in d['rows'])
     out = ['<div class="day%s">' % (' hl' if d.get('hl') else '')]
+    if d.get('above'):
+        out.append('<div class="abovenote">%s</div>' % esc(d['above']))
     meta = ' · '.join(x for x in [d.get('day',''), d.get('date','')] if x)
     out.append('<div class="dh"><span class="nm">%s</span><span class="dt">%s</span></div>' % (esc(d['name']), esc(meta)))
     if has_netz:
@@ -331,7 +332,6 @@ TPL = """<!DOCTYPE html>
       <div class="grid{gridcls}">
         {days}
       </div>
-      <div class="pgnote">{note}</div>
       <div class="foot">{foot}<small>הזמנים לירושלים</small></div>
     </div>
   </div>
@@ -362,7 +362,7 @@ for pg in PAGES:
     pal = PALETTE[pg['accent']]
     days = '\n        '.join(day_html(d) for d in pg['days'])
     html = TPL.format(title=pg['title'], year=YEAR, sub=pg['sub'], css=CSS, days=days,
-                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, note=pg.get('note',''), deco=motif_layer(pg['accent']),
+                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, deco=motif_layer(pg['accent']),
                       gridcls=' one' if pg.get('cols',2)==1 else '',
                       **dict(pal, **pg.get('pad', {'padt':'17mm','padb':'15mm','padx':'17mm'})))
     with io.open(os.path.join(here, pg['file']), 'w', encoding='utf-8') as f:
