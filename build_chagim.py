@@ -188,6 +188,7 @@ CSS = """
   .deco{pointer-events:none}
   .content{position:absolute;top:var(--padt,17mm);bottom:var(--padb,15mm);right:var(--padx,17mm);left:var(--padx,17mm);overflow:hidden}
   #fit{transform-origin:top center}
+  .bsd{position:absolute;top:0;right:0;font-size:3.4mm;color:#8a7a62;letter-spacing:.02em}
 
   .org{text-align:center;font-size:3.6mm;letter-spacing:.06em;color:var(--deep);font-weight:600}
   .org small{display:block;font-weight:400;font-size:3mm;color:#7b6c56;letter-spacing:0;margin-top:.4mm}
@@ -302,6 +303,7 @@ TPL = """<!DOCTYPE html>
   {frame}
   {deco}
   <div class="content">
+    <div class="bsd">בס״ד</div>
     <div id="fit" contenteditable>
       <div class="org">{org}<small>{addr}</small></div>
       <h1>{title}<br>{year}</h1>
