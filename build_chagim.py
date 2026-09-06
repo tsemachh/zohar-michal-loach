@@ -217,7 +217,7 @@ CSS = """
   .r{display:flex;align-items:baseline;gap:2mm;padding:.5mm 0;font-size:4.4mm;line-height:1.16}
   .r .l{flex:1}
   .r .dots{flex:none;width:0}
-  .r .t{width:18mm;flex:none;text-align:center;direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-weight:700;font-size:4.6mm;color:#241d16;font-variant-numeric:tabular-nums}
+  .r .t{min-width:18mm;flex:0 0 auto;text-align:center;direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-weight:700;font-size:4.6mm;color:#241d16;font-variant-numeric:tabular-nums}
   .r .t.netz{color:var(--accent);font-size:4.2mm}
   .r .t.small{font-size:3.2mm;font-weight:600;color:#9c8c74}
   .sky{margin-top:1mm;padding-top:.8mm;border-top:0.25mm dotted rgba(36,29,22,.25);font-size:3.5mm;color:#8a7a62}
@@ -225,7 +225,7 @@ CSS = """
   .grid.one .dh .nm{font-size:6mm}
   .grid.one .dh .dt{font-size:3.9mm}
   .grid.one .r{font-size:4.6mm;padding:.55mm 0;line-height:1.18}
-  .grid.one .r .t{width:31mm;font-size:4.8mm}
+  .grid.one .r .t{min-width:31mm;font-size:4.8mm}
   .grid.one .r .t.netz{font-size:4.6mm}
   .grid.one .caps span{width:31mm;font-size:3.2mm}
   .grid.one .sky{font-size:3.6mm}
@@ -264,6 +264,10 @@ FRAME = """<svg class="frame" viewBox="0 0 794 1122" preserveAspectRatio="none" 
 def esc(t):
     return (t or '').replace('&','&amp;').replace('<','&lt;')
 
+def time_cell(t):
+    """טווח שעות תמיד בשורה אחת — רווחים בלתי שבירים סביב החץ."""
+    return esc(t).replace(' → ', '\u00A0→\u00A0').replace(' - ', '\u00A0–\u00A0')
+
 def day_html(d):
     has_netz = any(r[1] for r in d['rows'])
     out = ['<div class="day%s">' % (' hl' if d.get('hl') else '')]
@@ -275,8 +279,8 @@ def day_html(d):
         cells = '<span class="l">%s</span>' % esc(lbl)
         if has_netz:
             cls = 't netz' + (' small' if netz and not netz[0].isdigit() else '')
-            cells += '<span class="%s">%s</span>' % (cls, esc(netz) or '&nbsp;')
-        cells += '<span class="t">%s</span>' % (esc(reg) or '&nbsp;')
+            cells += '<span class="%s">%s</span>' % (cls, time_cell(netz) or '&nbsp;')
+        cells += '<span class="t">%s</span>' % (time_cell(reg) or '&nbsp;')
         out.append('<div class="r">%s</div>' % cells)
     if d.get('sky'):
         out.append('<div class="sky">%s</div>' % esc(d['sky']))

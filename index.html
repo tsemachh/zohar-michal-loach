@@ -182,7 +182,7 @@
     const v = arr.filter(Boolean).map(x=>hhmm(new Date(x)));
     if(!v.length) return null;
     const a=v[0], b=v[v.length-1];
-    return a===b ? a : `${a} → ${b}`;
+    return a===b ? a : `${a}\u00A0→\u00A0${b}`;
   };
   const rangeShift = (arr,m) => range(arr.filter(Boolean).map(x=>add(new Date(x),m)));
   const pick = (times,key,dates) => dates.map(d => times[key] && times[key][d]).filter(Boolean);
