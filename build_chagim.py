@@ -54,6 +54,7 @@ PAGES = [
   ]},
  {
   'file': 'chagim-sukkot.html', 'cols': 1, 'accent': 'sukkot',
+  'pad': {'padt':'14mm','padb':'12mm','padx':'16mm'},
   'title': 'לוח זמנים לחגי הסוכות',
   'sub': 'סוכות · חול המועד · הושענא רבה · שמחת תורה',
   'foot': 'חג שמח · ושמחת בחגך',
@@ -64,7 +65,9 @@ PAGES = [
             ('מנחה ושיעור','','13:15'),('שיעור','','16:30'),
             ('מנחה וסעודה שלישית','','17:30'),('ערבית','','18:39')]},
    {'name':'חול המועד סוכות','day':'ימי חול','date':'ט״ז–כ״א תשרי',
-    'rows':[('שחרית','06:10','07:30')]},
+    'rows':[('שחרית','06:10','07:30'),
+            ('מנחה · 20 דק׳ קודם השקיעה','','18:10 → 18:04'),
+            ('ערבית · צאת הכוכבים','','18:49 → 18:43')]},
    {'name':'שמחת בית השואבה','day':'יום ד׳ חוה״מ','date':'',
     'rows':[('פרטים יפורסמו בנפרד','','')]},
    {'name':'ליל הושענא רבה','day':'','date':'כ״א בתשרי',
@@ -226,7 +229,7 @@ CSS = """
   .grid.one .r .t.netz{font-size:4.6mm}
   .grid.one .caps span{width:24mm;font-size:3.2mm}
   .grid.one .sky{font-size:3.6mm}
-  .grid.one .day{margin-bottom:7mm}
+  .grid.one .day{margin-bottom:5.4mm}
   .grid.one .caps{font-size:3.2mm}
   .grid.one .dh .dt{font-size:3.9mm}
 
