@@ -342,6 +342,7 @@ TPL = """<!DOCTYPE html>
 </div>
 </div>
 <script src="png-export.js"></script>
+<script src="nav.js"></script>
 <script>
 (function(){{
   document.getElementById('btnPrint').addEventListener('click', function(){{ fit(); window.print(); }});
