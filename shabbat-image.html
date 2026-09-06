@@ -26,7 +26,7 @@
   #fit{transform-origin:top center}
 
   .org{text-align:center;font-size:26px;font-weight:600;color:var(--deep);letter-spacing:.02em}
-  h1{margin:6px 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:66px;line-height:1.03;color:var(--hl)}
+  h1{margin:6px 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:72px;line-height:1.04;color:var(--hl)}
   .hdate{text-align:center;font-size:28px;color:#7b6c56;margin-top:4px}
   .rule{display:flex;align-items:center;gap:16px;margin:10px 0 12px}
   .rule i{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
@@ -36,7 +36,7 @@
   .sec h2{margin:0 0 4px;font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:40px;line-height:1.1;color:var(--deep);border-bottom:3px solid var(--deep);padding-bottom:5px;display:flex;justify-content:space-between;align-items:baseline}
   .sec.hl h2{color:var(--hl);border-bottom-color:var(--hl)}
   .sec h2 em{font-family:'Assistant',sans-serif;font-style:normal;font-size:24px;font-weight:600;color:#8a7a62}
-  .r{display:flex;align-items:baseline;gap:14px;padding:1px 0;font-size:37px;line-height:1.1}
+  .r{display:flex;align-items:baseline;gap:14px;padding:3px 0;font-size:38px;line-height:1.14}
   .r .l{flex:1}
   .r .l small{font-size:26px;color:#7b6c56}
   .r .t{flex:0 0 auto;min-width:150px;text-align:left;direction:ltr;unicode-bidi:isolate;white-space:nowrap;
@@ -110,14 +110,12 @@
     <div class="sec hl">
       <h2>שבת קודש</h2>
       <div class="r"><span class="l">שחרית ותיקין <small>קרבנות</small> <span class="t acc" data-k="s_netzp"></span></span><span class="t" contenteditable data-k="s_netz">—</span></div>
-      <div class="r"><span class="l">שחרית מניין ב׳</span><span class="t" contenteditable data-k="s_shacharit2">07:30</span></div>
+      <div class="r"><span class="l">שחרית מניין ב׳ <small>שיעור וקידוש לאחריה</small></span><span class="t" contenteditable data-k="s_shacharit2">07:30</span></div>
       <div class="r"><span class="l">סוף זמן ק״ש <small>מג״א</small></span><span class="t" contenteditable data-k="s_shmaGRA">—</span></div>
-      <div class="r"><span class="l">מנחה גדולה ושיעור</span><span class="t" contenteditable data-k="s_minchaGed">13:15</span></div>
-      <div class="r"><span class="l">מנחה קטנה <small>וסעודה שלישית</small></span><span class="t" contenteditable data-k="s_mincha2">—</span></div>
+      <div class="r"><span class="l">מנחה גדולה <small>שיעור ותהילים לילדים</small></span><span class="t" contenteditable data-k="s_minchaGed">13:15</span></div>
+      <div class="r"><span class="l">מנחה קטנה <small>וסעודה שלישית</small> <span class="t acc" data-k="s_shiur2"></span></span><span class="t" contenteditable data-k="s_mincha2">—</span></div>
       <div class="r"><span class="l">ערבית <small>10 דק׳ קודם צאת השבת</small></span><span class="t" contenteditable data-k="m_arvit">—</span></div>
       <div class="r"><span class="l">צאת השבת <small>ר״ת</small> <span class="t acc" data-k="m_rt"></span></span><span class="t" contenteditable data-k="m_tzeit">—</span></div>
-      <div class="note" contenteditable>קידוש <b>לאחר שחרית מניין ב׳</b> · תהילים לילדים <b>לאחר מנחה גדולה</b></div>
-      <div class="note" contenteditable>שיעורים · הרב אסף <b>לאחר שחרית</b> · הרב בן דהן <b>לאחר מנחה גדולה</b> · הרב מרציאנו <b data-k="s_shiur2">—</b></div>
     </div>
 
     <div class="sec">
@@ -166,7 +164,7 @@
       if(z.shabbat.netz) setVal('s_netzp', '(נץ '+z.shabbat.netz+')');
       setVal('s_shmaGRA',  z.shabbat.shmaMGA);
       setVal('s_mincha2',  z.shabbat.minchaKetana);
-      setVal('s_shiur2',   z.shabbat.shiurBefore);
+      if(z.shabbat.shiurBefore) setVal('s_shiur2', '(שיעור '+z.shabbat.shiurBefore+')');
       setVal('m_tzeit',    z.motzash.tzeit);
       setVal('m_arvit',    z.motzash.arvit);
       if(z.motzash.rt) setVal('m_rt', '(ר״ת '+z.motzash.rt+')');
