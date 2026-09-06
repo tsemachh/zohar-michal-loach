@@ -107,7 +107,7 @@
       <h2>ערב שבת קודש</h2>
       <div class="r" id="rowEarly"><span class="l">מנחה מוקדמת וקבלת שבת</span><span class="t" contenteditable data-k="e_early">—</span></div>
       <div class="r"><span class="l">הדלקת נרות</span><span class="t" contenteditable data-k="e_candles">—</span></div>
-      <div class="r"><span class="l">מנחה וקבלת שבת <small>שיר השירים 5 דק׳ קודם</small></span><span class="t" contenteditable data-k="e_mincha">—</span></div>
+      <div class="r"><span class="l">מנחה וקבלת שבת <small id="shirNote">שיר השירים 5 דק׳ קודם</small></span><span class="t" contenteditable data-k="e_mincha">—</span></div>
     </div>
 
     <div class="sec hl">
@@ -147,7 +147,7 @@
   function applySeason(){
     const sum = season==='summer';
     $('#btnSeason').textContent = sum ? 'שעון קיץ' : 'שעון חורף';
-    $('#rowEarly').classList.toggle('hidden', !sum);
+    $('#shirNote').classList.toggle('hidden', !sum);   // שיר השירים — בשעון קיץ בלבד
     setVal('s_minchaGed', sum ? '13:15' : '13:00');
     fit();
   }
@@ -161,6 +161,7 @@
 
       setVal('e_candles', z.candles);
       setVal('e_early',   z.early);
+      $('#rowEarly').classList.toggle('hidden', z.dates.hm !== 'Elul');   // מנחה מוקדמת — רק באלול
       setVal('e_mincha',  z.minchaKab);
 
       setVal('s_netz', z.shabbat.netzStart);

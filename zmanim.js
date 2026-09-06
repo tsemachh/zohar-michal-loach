@@ -94,6 +94,8 @@ window.ZM = (function(){
     const dates = { hebrew: null, weekFrom: hd0, weekTo: await hebrewDate(week[5]) };
     const satHeb = await hebrewDate(sat);
     dates.hebrew = satHeb ? satHeb.full : null;
+    dates.hm = satHeb ? satHeb.hm : null;   // חודש עברי של השבת — קובע מנחה מוקדמת באלול
+    dates.hd = satHeb ? satHeb.hd : null;
     if(hd0){
       const kinds = [];
       for(let i=0;i<nzWeek.length;i++){
