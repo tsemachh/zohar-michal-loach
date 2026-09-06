@@ -183,10 +183,14 @@
   const TZ='Asia/Jerusalem';
   const hhmm = ZM.hhmm, shiftHHMM = ZM.shiftHHMM;
 
+  const SUMMER_MONTHS = ['Nisan','Iyyar','Sivan','Tamuz','Av','Elul'];  // ניסן–אלול, עד ראש השנה
+  let hebMonth = null;
+  const earlyVisible = () => season==='summer' && (!hebMonth || SUMMER_MONTHS.includes(hebMonth));
   let season = localStorage.getItem(LS.season) || (ZM.isIsraelDST() ? 'summer' : 'winter');
   function applySeason(){
     const sum = season==='summer';
     $('#btnSeason').textContent = sum ? 'שעון קיץ' : 'שעון חורף';
+    $('#rowEarly').classList.toggle('hidden', !earlyVisible());   // מנחה מוקדמת — שעון קיץ, ניסן–אלול
     $('#rowShir').classList.toggle('hidden', !sum);   // שיר השירים — בשעון קיץ בלבד
     $('#shirSub').textContent = '5 דק׳ לאחר הדלקת נרות';
     setVal('s_minchaGed', sum ? '13:15' : '13:00');
@@ -206,7 +210,7 @@
       /* ערב שבת */
       setVal('e_candles', z.candles);
       setVal('e_early',   z.early);
-      $('#rowEarly').classList.toggle('hidden', z.dates.hm !== 'Elul');   // מנחה מוקדמת — רק באלול, לפני ראש השנה
+      hebMonth = z.dates.hm;   // מנחה מוקדמת: שעון קיץ בחודשי ניסן–אלול בלבד
       setVal('e_mincha',  z.minchaKab);
 
       /* שבת */
