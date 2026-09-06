@@ -1,19 +1,23 @@
-/* nav.js — סרגל ניווט בין כל דפי הלוח. נטען בכל דף ומזהה לבד היכן הוא נמצא. */
+/* nav.js — בורר דפים בסרגל הכלים. תפריט נפתח אחד, לא שורת קישורים. */
 (function(){
   const PAGES = [
     {f:'index.html',               t:'לוח השבוע'},
-    {f:'shabbat-image.html',       t:'תמונה לוואטסאפ'},
+    {f:'shabbat-image.html',       t:'שבת לוואטסאפ'},
     {f:'chagim-rosh-hashana.html', t:'ימים נוראים'},
     {f:'chagim-sukkot.html',       t:'חגי הסוכות'}
   ];
 
   const CSS = `
-    .pagenav{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-inline-start:14px;
-             padding-inline-start:14px;border-inline-start:1px solid #4a453e}
-    .pagenav a{font-family:inherit;font-size:15px;font-weight:600;text-decoration:none;
-               color:#cfc6b4;background:transparent;border:1px solid #4a453e;border-radius:5px;padding:8px 14px}
-    .pagenav a:hover{background:#4a463f;border-color:#6f685c;color:#fff}
-    .pagenav a.here{background:#efe8da;border-color:#cfc3ab;color:#221c14;cursor:default}
+    .pagenav{display:inline-flex;align-items:center;gap:8px;margin-inline-start:12px;
+             padding-inline-start:12px;border-inline-start:1px solid #4a453e}
+    .pagenav select{font-family:inherit;font-size:16px;font-weight:600;color:#f2ead9;
+      background:#3d3a35;border:1px solid #5b554b;border-radius:5px;padding:10px 14px;
+      cursor:pointer;appearance:none;-webkit-appearance:none;
+      background-image:linear-gradient(45deg,transparent 50%,#cfc6b4 50%),linear-gradient(135deg,#cfc6b4 50%,transparent 50%);
+      background-position:left 14px center,left 9px center;background-size:5px 5px;background-repeat:no-repeat;
+      padding-inline-start:34px}
+    .pagenav select:hover{background-color:#4a463f;border-color:#6f685c}
+    .pagenav select:focus-visible{outline:2px solid #E0842B;outline-offset:2px}
     @media print{.pagenav{display:none!important}}
   `;
 
@@ -28,16 +32,19 @@
     const here = (location.pathname.split('/').pop() || 'index.html');
     const wrap = document.createElement('span');
     wrap.className = 'pagenav no-print';
-    PAGES.forEach(p => {
-      const a = document.createElement('a');
-      a.textContent = p.t;
-      if(p.f === here){ a.className = 'here'; a.href = 'javascript:void 0'; }
-      else a.href = p.f;
-      wrap.appendChild(a);
-    });
 
+    const sel = document.createElement('select');
+    sel.setAttribute('aria-label', 'מעבר בין דפי הלוח');
+    PAGES.forEach(p => {
+      const o = document.createElement('option');
+      o.value = p.f; o.textContent = p.t;
+      if(p.f === here) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', () => { if(sel.value !== here) location.href = sel.value; });
+
+    wrap.appendChild(sel);
     const status = bar.querySelector('.status');
-    if(status) bar.insertBefore(wrap, status);
-    else bar.appendChild(wrap);
+    if(status) bar.insertBefore(wrap, status); else bar.appendChild(wrap);
   });
 })();
