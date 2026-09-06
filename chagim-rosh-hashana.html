@@ -17,6 +17,7 @@
   #stage{padding:18px 0 40px;display:flex;justify-content:center}
   .page{position:relative;width:210mm;height:296.9mm;background:var(--paper);box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}
   .frame{position:absolute;inset:0;width:100%;height:100%}
+  .deco{pointer-events:none}
   .content{position:absolute;top:17mm;bottom:15mm;right:17mm;left:17mm;overflow:hidden}
   #fit{transform-origin:top center}
 
@@ -24,10 +25,9 @@
   .org small{display:block;font-weight:400;font-size:3mm;color:#7b6c56;letter-spacing:0;margin-top:.4mm}
   h1{margin:3.5mm 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:11mm;line-height:1.05;color:var(--deep)}
   .sub{text-align:center;font-size:4.2mm;color:#7b6c56;margin-top:1.4mm}
-  .rule{display:flex;align-items:center;gap:4mm;margin:2.5mm 0 3.5mm}
+  .rule{display:flex;align-items:center;gap:3mm;margin:3mm 0 3.5mm}
   .rule i{flex:1;height:0.35mm;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-  .orn{width:84mm;height:22mm;flex:none;opacity:.92}
-  .orn.mini{width:34mm;height:8mm;opacity:.75;margin:2mm auto 0;display:block}
+  .rule b{width:2.6mm;height:2.6mm;background:var(--accent);transform:rotate(45deg)}
   .legend{text-align:center;font-size:3.2mm;color:#8a7a62;margin:-2mm 0 3.5mm}
   .legend em{font-style:normal;color:var(--accent);font-weight:700}
 
@@ -94,25 +94,52 @@
     <path d="M330 44 q67 -22 134 0"/>
   </g>
 </svg>
+  <svg class="frame deco" viewBox="0 0 794 1122" aria-hidden="true" style="color:var(--accent)">
+  <defs>
+  <g id="pom" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="4" r="13"/>
+    <path d="M-8 -7 l3 -9 l4 7 l4 -7 l3 9"/>
+  </g>
+  <g id="shofar" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-17 -3 C -8 12, 12 13, 20 1 L 17 -3 C 6 6, -6 4, -12 -8 Z"/>
+  </g>
+  <g id="etrog" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="0" cy="2" rx="9" ry="12"/>
+    <path d="M0 -10 v-5"/>
+  </g>
+  <g id="lulav" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 -16 C -4 -2, -5 10, -2 18"/>
+    <path d="M0 -16 C 5 -3, 7 9, 4 18"/>
+    <path d="M0 -16 C -6 -3, -8 9, -6 18" opacity=".8"/>
+  </g>
+  <g id="schach" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <path d="M-14 8 h28"/>
+    <path d="M-11 8 l7 -12 M-3 8 l7 -12 M5 8 l7 -12"/>
+  </g>
+</defs>
+  <g opacity="0.34">
+  <use href="#pom" transform="translate(46 176) scale(0.86)"/>
+  <use href="#pom" transform="translate(748 176) scale(0.86)"/>
+  <use href="#shofar" transform="translate(46 386) scale(0.86)"/>
+  <use href="#shofar" transform="translate(748 386) scale(0.86)"/>
+  <use href="#pom" transform="translate(46 596) scale(0.86)"/>
+  <use href="#pom" transform="translate(748 596) scale(0.86)"/>
+  <use href="#shofar" transform="translate(46 806) scale(0.86)"/>
+  <use href="#pom" transform="translate(748 806) scale(0.86)"/>
+  <use href="#pom" transform="translate(46 1016) scale(0.86)"/>
+  <use href="#shofar" transform="translate(748 1016) scale(0.86)"/>
+  </g>
+  <g opacity="0.26">
+  <use href="#pom" transform="translate(317 1080) scale(0.62)"/>
+  <use href="#shofar" transform="translate(397 1080) scale(0.62)"/>
+  <use href="#pom" transform="translate(477 1080) scale(0.62)"/>
+  </g></svg>
   <div class="content">
     <div id="fit" contenteditable>
       <div class="org">בית הכנסת זוהר מיכל הי״ד<small>רח׳ זאב פאלק 18, חומת שמואל, ירושלים</small></div>
       <h1>לוח זמנים לימים הנוראים<br>תשפ״ז</h1>
       <div class="sub">ראש השנה · צום גדליה · שבת שובה · יום הכיפורים</div>
-      <div class="rule"><i></i><svg class="orn" viewBox="0 0 300 80" aria-hidden="true">
-  <g fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M92 42 C 116 72, 174 74, 210 46 L 205 40 C 174 60, 128 56, 106 30 Z"/>
-    <path d="M112 46 C 136 66, 172 66, 199 47" stroke-width="1.1" opacity=".45"/>
-    <g transform="translate(30 14)">
-      <circle cx="20" cy="30" r="17"/>
-      <path d="M10 15 l4 -12 l6 9 l6 -9 l4 12"/>
-    </g>
-    <g transform="translate(230 14)">
-      <circle cx="20" cy="30" r="17"/>
-      <path d="M10 15 l4 -12 l6 9 l6 -9 l4 12"/>
-    </g>
-  </g>
-</svg><i></i></div>
+      <div class="rule"><i></i><b></b><i></i></div>
       <div class="legend">שעות <em>בזהב</em> — מניין הנץ · שעות בשחור — מניין רגיל</div>
       <div class="grid">
         <div class="day">

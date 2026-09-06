@@ -81,41 +81,50 @@ PALETTE = {
 
 
 # מוטיבים מצוירים לכל חג — קו נקי, ללא מילוי
-ORNAMENT = {
- 'noraim': """<svg class="orn" viewBox="0 0 300 80" aria-hidden="true">
-  <g fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M92 42 C 116 72, 174 74, 210 46 L 205 40 C 174 60, 128 56, 106 30 Z"/>
-    <path d="M112 46 C 136 66, 172 66, 199 47" stroke-width="1.1" opacity=".45"/>
-    <g transform="translate(30 14)">
-      <circle cx="20" cy="30" r="17"/>
-      <path d="M10 15 l4 -12 l6 9 l6 -9 l4 12"/>
-    </g>
-    <g transform="translate(230 14)">
-      <circle cx="20" cy="30" r="17"/>
-      <path d="M10 15 l4 -12 l6 9 l6 -9 l4 12"/>
-    </g>
+# קישוטי רקע — סמלים קטנים בשוליים הריקים, מאחורי התוכן
+SYMBOLS = """<defs>
+  <g id="pom" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="4" r="13"/>
+    <path d="M-8 -7 l3 -9 l4 7 l4 -7 l3 9"/>
   </g>
-</svg>""",
- 'sukkot': """<svg class="orn" viewBox="0 0 300 80" aria-hidden="true">
-  <g fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <g transform="translate(120 4)">
-      <path d="M26 4 C 20 24, 19 48, 23 68"/>
-      <path d="M26 4 C 36 22, 40 46, 35 68" stroke-width="1.5"/>
-      <path d="M26 4 C 16 22, 12 46, 17 68" stroke-width="1.5"/>
-      <path d="M26 16 l-11 8 M26 28 l11 8 M26 40 l-11 8" stroke-width="1.2" opacity=".6"/>
-      <ellipse cx="66" cy="46" rx="15" ry="19"/>
-      <path d="M66 27 v-7" stroke-width="1.6"/>
-      <path d="M58 40 q8 9 16 0" stroke-width="1.2" opacity=".55"/>
-    </g>
-    <g opacity=".9">
-      <path d="M14 52 h78" stroke-width="1.8"/>
-      <path d="M20 52 l11 -17 M35 52 l11 -17 M50 52 l11 -17 M65 52 l11 -17 M80 52 l11 -17" stroke-width="1.4"/>
-      <path d="M208 52 h78" stroke-width="1.8"/>
-      <path d="M214 52 l11 -17 M229 52 l11 -17 M244 52 l11 -17 M259 52 l11 -17 M274 52 l11 -17" stroke-width="1.4"/>
-    </g>
+  <g id="shofar" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-17 -3 C -8 12, 12 13, 20 1 L 17 -3 C 6 6, -6 4, -12 -8 Z"/>
   </g>
-</svg>""",
+  <g id="etrog" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="0" cy="2" rx="9" ry="12"/>
+    <path d="M0 -10 v-5"/>
+  </g>
+  <g id="lulav" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 -16 C -4 -2, -5 10, -2 18"/>
+    <path d="M0 -16 C 5 -3, 7 9, 4 18"/>
+    <path d="M0 -16 C -6 -3, -8 9, -6 18" opacity=".8"/>
+  </g>
+  <g id="schach" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <path d="M-14 8 h28"/>
+    <path d="M-11 8 l7 -12 M-3 8 l7 -12 M5 8 l7 -12"/>
+  </g>
+</defs>"""
+
+MOTIFS = {
+ 'noraim':  ['pom','shofar','pom','shofar','pom'],
+ 'sukkot':  ['etrog','lulav','schach','lulav','etrog'],
 }
+
+def motif_layer(accent):
+    """סמלים קטנים לאורך שני השוליים, בשקיפות נמוכה."""
+    names = MOTIFS[accent]
+    ys = [176, 386, 596, 806, 1016]
+    out = ['<svg class="frame deco" viewBox="0 0 794 1122" aria-hidden="true" style="color:var(--accent)">', SYMBOLS, '<g opacity="0.34">']
+    for i, y in enumerate(ys):
+        n = names[i % len(names)]
+        out.append('<use href="#%s" transform="translate(46 %d) scale(0.86)"/>' % (n, y))
+        out.append('<use href="#%s" transform="translate(748 %d) scale(0.86)"/>' % (names[(i+2) % len(names)], y))
+    out.append('</g>')
+    out.append('<g opacity="0.26">')
+    for i, x in enumerate([317, 397, 477]):
+        out.append('<use href="#%s" transform="translate(%d 1080) scale(0.62)"/>' % (names[i % len(names)], x))
+    out.append('</g></svg>')
+    return '\n  '.join(out)
 
 CSS = """
   *{box-sizing:border-box}
@@ -127,6 +136,7 @@ CSS = """
   #stage{padding:18px 0 40px;display:flex;justify-content:center}
   .page{position:relative;width:210mm;height:296.9mm;background:var(--paper);box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}
   .frame{position:absolute;inset:0;width:100%;height:100%}
+  .deco{pointer-events:none}
   .content{position:absolute;top:17mm;bottom:15mm;right:17mm;left:17mm;overflow:hidden}
   #fit{transform-origin:top center}
 
@@ -134,10 +144,9 @@ CSS = """
   .org small{display:block;font-weight:400;font-size:3mm;color:#7b6c56;letter-spacing:0;margin-top:.4mm}
   h1{margin:3.5mm 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:11mm;line-height:1.05;color:var(--deep)}
   .sub{text-align:center;font-size:4.2mm;color:#7b6c56;margin-top:1.4mm}
-  .rule{display:flex;align-items:center;gap:4mm;margin:2.5mm 0 3.5mm}
+  .rule{display:flex;align-items:center;gap:3mm;margin:3mm 0 3.5mm}
   .rule i{flex:1;height:0.35mm;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-  .orn{width:84mm;height:22mm;flex:none;opacity:.92}
-  .orn.mini{width:34mm;height:8mm;opacity:.75;margin:2mm auto 0;display:block}
+  .rule b{width:2.6mm;height:2.6mm;background:var(--accent);transform:rotate(45deg)}
   .legend{text-align:center;font-size:3.2mm;color:#8a7a62;margin:-2mm 0 3.5mm}
   .legend em{font-style:normal;color:var(--accent);font-weight:700}
 
@@ -240,12 +249,13 @@ TPL = """<!DOCTYPE html>
 <div id="stage">
 <div class="page" id="page">
   {frame}
+  {deco}
   <div class="content">
     <div id="fit" contenteditable>
       <div class="org">{org}<small>{addr}</small></div>
       <h1>{title}<br>{year}</h1>
       <div class="sub">{sub}</div>
-      <div class="rule"><i></i>{ornament}<i></i></div>
+      <div class="rule"><i></i><b></b><i></i></div>
       <div class="legend">שעות <em>בזהב</em> — מניין הנץ · שעות בשחור — מניין רגיל</div>
       <div class="grid{gridcls}">
         {days}
@@ -280,8 +290,7 @@ for pg in PAGES:
     pal = PALETTE[pg['accent']]
     days = '\n        '.join(day_html(d) for d in pg['days'])
     html = TPL.format(title=pg['title'], year=YEAR, sub=pg['sub'], css=CSS, days=days,
-                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME,
-                      ornament=ORNAMENT[pg['accent']],
+                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, deco=motif_layer(pg['accent']),
                       gridcls=' one' if pg.get('cols',2)==1 else '', **pal)
     with io.open(os.path.join(here, pg['file']), 'w', encoding='utf-8') as f:
         f.write(html)
