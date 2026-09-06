@@ -109,7 +109,7 @@
       <h2>ערב שבת קודש</h2>
       <div class="r" id="rowEarly"><span class="l">מנחה מוקדמת וקבלת שבת</span><span class="t" contenteditable data-k="e_early">—</span></div>
       <div class="r"><span class="l">הדלקת נרות</span><span class="t" contenteditable data-k="e_candles">—</span></div>
-      <div class="r"><span class="l">מנחה וקבלת שבת <small id="shirNote">שיר השירים 5 דק׳ קודם</small></span><span class="t" contenteditable data-k="e_mincha">—</span></div>
+      <div class="r"><span class="l">מנחה וקבלת שבת <span id="shirNote"><small>שיר השירים 15 דק׳ קודם</small> <span class="t acc" data-k="e_shir"></span></span></span><span class="t" contenteditable data-k="e_mincha">—</span></div>
     </div>
 
     <div class="sec hl">
@@ -170,6 +170,7 @@
       setVal('e_early',   z.early);
       hebMonth = z.dates.hm;   // מנחה מוקדמת: שעון קיץ בחודשי ניסן–אלול בלבד
       setVal('e_mincha',  z.minchaKab);
+      if(z.shir) setVal('e_shir', '('+z.shir+')');
 
       setVal('s_netz', z.shabbat.netzStart);
       if(z.shabbat.netz) setVal('s_netzp', '(נץ '+z.shabbat.netz+')');
