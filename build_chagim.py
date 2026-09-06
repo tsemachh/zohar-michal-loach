@@ -219,6 +219,8 @@ CSS = """
   .caps span{width:18mm;text-align:center;flex:none}
   .r{display:flex;align-items:baseline;gap:2mm;padding:.38mm 0;font-size:4.4mm;line-height:1.15}
   .r .l{flex:1}
+  .lsub{font-size:3.5mm;color:#7b6c56}
+  .grid.one .lsub{font-size:4mm}
   .r .dots{flex:none;width:0}
   .r .t{min-width:18mm;flex:0 0 auto;text-align:center;direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-weight:700;font-size:4.6mm;color:#241d16;font-variant-numeric:tabular-nums}
   .r .t.netz{color:var(--accent);font-size:4.2mm}
@@ -279,7 +281,11 @@ def day_html(d):
     if has_netz:
         out.append('<div class="caps"><i></i><span>מניין הנץ</span><span>מניין רגיל</span></div>')
     for lbl, netz, reg in d['rows']:
-        cells = '<span class="l">%s</span>' % esc(lbl)
+        if ' · ' in lbl:
+            main, rest = lbl.split(' · ', 1)
+            cells = '<span class="l">%s <span class="lsub">%s</span></span>' % (esc(main), esc(rest))
+        else:
+            cells = '<span class="l">%s</span>' % esc(lbl)
         if has_netz:
             cls = 't netz' + (' small' if netz and not netz[0].isdigit() else '')
             cells += '<span class="%s">%s</span>' % (cls, time_cell(netz) or '&nbsp;')
