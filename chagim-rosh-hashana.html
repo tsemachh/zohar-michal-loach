@@ -18,54 +18,56 @@
   .page{position:relative;width:210mm;height:296.9mm;background:var(--paper);box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}
   .frame{position:absolute;inset:0;width:100%;height:100%}
   .deco{pointer-events:none}
-  .content{position:absolute;top:17mm;bottom:15mm;right:17mm;left:17mm;overflow:hidden}
+  .content{position:absolute;top:var(--padt,17mm);bottom:var(--padb,15mm);right:var(--padx,17mm);left:var(--padx,17mm);overflow:hidden}
   #fit{transform-origin:top center}
 
   .org{text-align:center;font-size:3.6mm;letter-spacing:.06em;color:var(--deep);font-weight:600}
   .org small{display:block;font-weight:400;font-size:3mm;color:#7b6c56;letter-spacing:0;margin-top:.4mm}
-  h1{margin:3.5mm 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:11mm;line-height:1.05;color:var(--deep)}
-  .sub{text-align:center;font-size:4.2mm;color:#7b6c56;margin-top:1.4mm}
-  .rule{display:flex;align-items:center;gap:3mm;margin:3mm 0 3.5mm}
+  h1{margin:2.4mm 0 0;text-align:center;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:9.6mm;line-height:1.05;color:var(--deep)}
+  .sub{text-align:center;font-size:4.1mm;color:#7b6c56;margin-top:1.1mm}
+  .rule{display:flex;align-items:center;gap:3mm;margin:2.2mm 0 2.6mm}
   .rule i{flex:1;height:0.35mm;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
   .rule b{width:2.6mm;height:2.6mm;background:var(--accent);transform:rotate(45deg)}
   .legend{text-align:center;font-size:3.2mm;color:#8a7a62;margin:-2mm 0 3.5mm}
   .legend em{font-style:normal;color:var(--accent);font-weight:700}
 
-  .grid{column-count:2;column-gap:9mm}
+  .grid{column-count:2;column-gap:8mm}
   .grid.one{column-count:1}
-  .day{break-inside:avoid;margin:0 0 5mm;padding-bottom:1mm}
+  .day{break-inside:avoid;margin:0 0 3.4mm;padding-bottom:.4mm}
   .dh{display:flex;align-items:baseline;justify-content:space-between;gap:3mm;border-bottom:0.5mm solid var(--deep);padding-bottom:1mm;margin-bottom:1.6mm}
-  .dh .nm{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:5.4mm;line-height:1.1;color:var(--deep)}
+  .dh .nm{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:5.9mm;line-height:1.1;color:var(--deep)}
   .day.hl .dh .nm{color:var(--hl)}
   .day.hl .dh{border-bottom-color:var(--hl)}
-  .dh .dt{font-size:3.3mm;color:#8a7a62;text-align:left;white-space:nowrap}
-  .caps{display:flex;gap:2mm;font-size:2.8mm;letter-spacing:.04em;color:#9c8c74;margin-bottom:.6mm}
+  .dh .dt{font-size:3.7mm;color:#8a7a62;text-align:left;white-space:nowrap}
+  .caps{display:flex;gap:2mm;font-size:3.1mm;letter-spacing:.04em;color:#9c8c74;margin-bottom:.6mm}
   .caps i{flex:1}
-  .caps span{width:17mm;text-align:center;flex:none}
-  .r{display:flex;align-items:baseline;gap:2mm;padding:.55mm 0;font-size:4mm;line-height:1.2}
+  .caps span{width:18mm;text-align:center;flex:none}
+  .r{display:flex;align-items:baseline;gap:2mm;padding:.5mm 0;font-size:4.4mm;line-height:1.16}
   .r .l{flex:1}
   .r .dots{flex:none;width:0}
-  .r .t{width:17mm;flex:none;text-align:center;direction:ltr;unicode-bidi:isolate;font-weight:700;font-size:4.2mm;color:#241d16;font-variant-numeric:tabular-nums}
-  .r .t.netz{color:var(--accent);font-size:3.9mm}
-  .r .t.small{font-size:2.9mm;font-weight:600;color:#9c8c74}
-  .sky{margin-top:1.2mm;padding-top:.9mm;border-top:0.25mm dotted rgba(36,29,22,.25);font-size:3.1mm;color:#8a7a62}
+  .r .t{width:18mm;flex:none;text-align:center;direction:ltr;unicode-bidi:isolate;font-weight:700;font-size:4.6mm;color:#241d16;font-variant-numeric:tabular-nums}
+  .r .t.netz{color:var(--accent);font-size:4.2mm}
+  .r .t.small{font-size:3.2mm;font-weight:600;color:#9c8c74}
+  .sky{margin-top:1mm;padding-top:.8mm;border-top:0.25mm dotted rgba(36,29,22,.25);font-size:3.5mm;color:#8a7a62}
 
   .grid.one .dh .nm{font-size:6.4mm}
   .grid.one .dh .dt{font-size:3.9mm}
-  .grid.one .r{font-size:4.8mm;padding:.8mm 0}
+  .grid.one .r{font-size:4.8mm;padding:.8mm 0;line-height:1.2}
   .grid.one .r .t{width:24mm;font-size:5mm}
   .grid.one .r .t.netz{font-size:4.6mm}
   .grid.one .caps span{width:24mm;font-size:3.2mm}
   .grid.one .sky{font-size:3.6mm}
   .grid.one .day{margin-bottom:7mm}
+  .grid.one .caps{font-size:3.2mm}
+  .grid.one .dh .dt{font-size:3.9mm}
 
-  .foot{text-align:center;margin-top:3mm;font-family:'Frank Ruhl Libre',serif;font-size:5mm;font-weight:700;color:var(--deep)}
+  .foot{text-align:center;margin-top:2mm;font-family:'Frank Ruhl Libre',serif;font-size:5mm;font-weight:700;color:var(--deep)}
   .foot small{display:block;font-family:'Assistant',sans-serif;font-weight:400;font-size:3.2mm;color:#9c8c74;margin-top:.8mm}
   [contenteditable]:focus{outline:1.5px dashed var(--accent);outline-offset:2px;background:rgba(156,122,46,.08)}
   @page{size:A4 portrait;margin:0}
   @media print{body{background:none}.no-print{display:none!important}#stage{padding:0;display:block}.page{box-shadow:none;margin:0}}
 
-  .page{--deep:#1F4E5F;--accent:#9C7A2E;--hl:#8C2F2A;--paper:#FCFAF4;--wash:#F3EFE3}
+  .page{--deep:#1F4E5F;--accent:#9C7A2E;--hl:#8C2F2A;--paper:#FCFAF4;--wash:#F3EFE3;--padt:11mm;--padb:10mm;--padx:12mm}
 </style>
 </head>
 <body>
@@ -140,7 +142,6 @@
       <h1>לוח זמנים לימים הנוראים<br>תשפ״ז</h1>
       <div class="sub">ראש השנה · צום גדליה · שבת שובה · יום הכיפורים</div>
       <div class="rule"><i></i><b></b><i></i></div>
-      <div class="legend">שעות <em>בזהב</em> — מניין הנץ · שעות בשחור — מניין רגיל</div>
       <div class="grid">
         <div class="day">
         <div class="dh"><span class="nm">ערב ראש השנה</span><span class="dt">שישי · כ״ט אלול · 11.9.26</span></div>
