@@ -188,7 +188,8 @@ CSS = """
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{background:#3a3733;font-family:'Assistant',system-ui,Arial,sans-serif;color:#241d16}
-  .toolbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:#211f1c;border-bottom:1px solid #4a453e}
+  .toolbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;align-items:center;padding:10px 14px;background:#211f1c;border-bottom:1px solid #4a453e}
+  .toolbar>*{flex:none}
   .toolbar button,.toolbar a.doc{font-family:inherit;font-size:14px;font-weight:600;background:#efe8da;color:#221c14;border:1px solid #cfc3ab;border-radius:4px;padding:7px 12px;cursor:pointer;text-decoration:none;display:inline-block}
   .toolbar .status{color:#cfc6b4;font-size:13px;margin-inline-start:auto}
   #stage{padding:18px 0 40px;display:flex;justify-content:center}
@@ -317,8 +318,8 @@ TPL = """<!DOCTYPE html>
 </head>
 <body>
 <div class="toolbar no-print">
-  <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
-  <button id="btnPng">הורד תמונה לוואטסאפ</button>
+  <button id="btnPrint">הדפסה</button>
+  <button id="btnPng">תמונה</button>
   <span class="status" id="status"></span>
   <span class="status">כל שעה וכל שורה ניתנות לעריכה בלחיצה ישירה.</span>
 </div>
