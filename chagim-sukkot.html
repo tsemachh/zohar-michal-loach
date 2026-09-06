@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=820">
+<title>לוח זמנים לחג הסוכות תשפ״ז — בית הכנסת זוהר מיכל הי"ד</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--teal:#0F6B68;--orange:#E0842B;--crimson:#C9372E;--gold:#6B5527;--ink:#2B2118;--rule:rgba(43,33,24,.32)}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:#3a3733;font-family:'Assistant',system-ui,Arial,sans-serif;color:var(--ink)}
+  .toolbar{position:sticky;top:0;z-index:50;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 14px;background:#211f1c;border-bottom:1px solid #4a453e}
+  .toolbar button,.toolbar a.doc{font-family:inherit;font-size:14px;font-weight:600;background:#efe8da;color:#221c14;border:1px solid #cfc3ab;border-radius:4px;padding:7px 12px;cursor:pointer;text-decoration:none;display:inline-block}
+  .toolbar .status{color:#cfc6b4;font-size:13px;margin-inline-start:auto}
+  #stage{padding:18px 0 40px;display:flex;justify-content:center}
+  .page{position:relative;width:210mm;height:296.9mm;background:#E9E1D2 url('bg.jpg') no-repeat;background-size:100% 100%;box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .content{position:absolute;top:19.4%;bottom:7.4%;right:12.6%;left:12.6%;overflow:hidden}
+  #fit{transform-origin:top center}
+  .head{text-align:center;border-bottom:0.6mm solid var(--teal);padding-bottom:1.6mm;margin-bottom:3mm}
+  .head h1{margin:0;font-family:'Frank Ruhl Libre',serif;font-weight:900;font-size:7.4mm;line-height:1.1;color:var(--crimson)}
+  .head .sub{font-size:4mm;color:#57493a;margin-top:0.8mm}
+  .grid{column-count:2;column-gap:6mm}
+  .grid.one{column-count:1}
+  .grid.one .card{margin-bottom:4mm}
+  .grid.one .card h2{font-size:5.4mm;padding:1.3mm 3.5mm 1.6mm}
+  .grid.one .card h2 .when{font-size:3.9mm}
+  .grid.one .date{font-size:3.7mm;padding:1.2mm 3.5mm 0}
+  .grid.one .cols{font-size:3.4mm;padding:0.9mm 3.5mm 0;gap:3mm}
+  .grid.one .cols span{width:22mm}
+  .grid.one .r{font-size:4.5mm;padding:0.75mm 3.5mm;gap:3mm}
+  .grid.one .r .t{width:22mm;font-size:4.8mm}
+  .grid.one .r .t.netz{font-size:4.2mm}
+  .grid.one .r .t.small{font-size:3.4mm}
+  .grid.one .sky{font-size:3.6mm;padding:1.2mm 3.5mm 1.8mm}
+  .card{break-inside:avoid;margin:0 0 3mm;border:0.3mm solid rgba(43,33,24,.18);border-radius:1.2mm;overflow:hidden;background:rgba(255,252,244,.42)}
+  .card h2{margin:0;padding:1mm 2.5mm 1.2mm;font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:4.5mm;line-height:1.15;color:#fff;background:var(--teal);display:flex;justify-content:space-between;align-items:baseline;gap:2mm}
+  .card.crimson h2{background:var(--crimson)}
+  .card.gold h2{background:var(--gold)}
+  .card h2 .when{font-family:'Assistant',sans-serif;font-weight:600;font-size:3.2mm;opacity:.92;white-space:nowrap}
+  .card .date{font-size:3.1mm;color:#6b5b48;padding:0.8mm 2.5mm 0;text-align:left}
+  .cols{display:flex;font-size:2.9mm;color:#6b5b48;padding:0.6mm 2.5mm 0;gap:2mm}
+  .cols span{width:16mm;text-align:center;flex:none}
+  .cols i{flex:1}
+  .r{display:flex;align-items:baseline;gap:2mm;padding:0.5mm 2.5mm;font-size:3.7mm;line-height:1.2}
+  .r .l{flex:1}
+  .r .t{width:16mm;flex:none;text-align:center;direction:ltr;unicode-bidi:isolate;font-weight:700;font-size:3.9mm;color:var(--teal);font-variant-numeric:tabular-nums}
+  .r .t.netz{color:var(--orange);font-size:3.4mm}
+  .r .t.small{font-size:2.9mm;font-weight:600;color:#6b5b48}
+  .sky{padding:0.9mm 2.5mm 1.4mm;font-size:3mm;color:#6b5b48;border-top:0.25mm dotted var(--rule);margin-top:0.6mm}
+  .foot{text-align:center;margin-top:1.5mm;padding-top:1.2mm;border-top:0.4mm solid var(--rule);font-family:'Frank Ruhl Libre',serif;font-size:4.2mm;font-weight:700;color:#6b5b48}
+  [contenteditable]:focus{outline:1.5px dashed var(--orange);outline-offset:2px;background:rgba(224,132,43,.10)}
+  @page{size:A4 portrait;margin:0}
+  @media print{body{background:none}.no-print{display:none!important}#stage{padding:0;display:block}.page{box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+<div class="toolbar no-print">
+  <button id="btnPrint">הדפסה / שמירה כ‑PDF</button>
+  <a class="doc" href="./">לוח השבוע</a>
+  <a class="doc" href="https://github.com/tsemachh/zohar-michal-loach/blob/main/README.md" target="_blank" rel="noopener">הוראות שימוש</a>
+  <span class="status">כל שעה וכל שורה ניתנות לעריכה בלחיצה ישירה.</span>
+</div>
+<div id="stage">
+<div class="page" id="page">
+  <div class="content">
+    <div id="fit" contenteditable>
+      <div class="head">
+        <h1>לוח זמנים לחג הסוכות תשפ״ז</h1>
+        <div class="sub">סוכות · חול המועד · הושענא רבה · שמחת תורה</div>
+      </div>
+      <div class="grid one">
+        <div class="card crimson">
+        <h2><span>סוכות</span><span class="when">שבת קודש</span></h2>
+        <div class="date">ט״ו בתשרי · 26.9.26</div>
+        <div class="cols"><i></i><span>מניין נץ</span><span>מניין רגיל</span></div>
+        <div class="r"><span class="l">מנחה, קבלת שבת וערבית</span><span class="t netz">&nbsp;</span><span class="t">18:10</span></div>
+        <div class="r"><span class="l">שחרית</span><span class="t netz">05:30</span><span class="t">07:30</span></div>
+        <div class="r"><span class="l">מנחה ושיעור</span><span class="t netz">&nbsp;</span><span class="t">13:15</span></div>
+        <div class="r"><span class="l">שיעור</span><span class="t netz">&nbsp;</span><span class="t">16:30</span></div>
+        <div class="r"><span class="l">מנחה וסעודה שלישית</span><span class="t netz">&nbsp;</span><span class="t">17:30</span></div>
+        <div class="r"><span class="l">ערבית</span><span class="t netz">&nbsp;</span><span class="t">18:55</span></div>
+        <div class="sky">זריחה 06:29 · שקיעה 18:35 · צאת השבת 18:49</div>
+        </div>
+        <div class="card teal">
+        <h2><span>חול המועד סוכות</span><span class="when">ימי חול</span></h2>
+        <div class="date">ט״ז–כ״א תשרי</div>
+        <div class="cols"><i></i><span>מניין נץ</span><span>מניין רגיל</span></div>
+        <div class="r"><span class="l">שחרית</span><span class="t netz">06:10</span><span class="t">07:30</span></div>
+        </div>
+        <div class="card gold">
+        <h2><span>שמחת בית השואבה</span><span class="when">יום ד׳ חוה״מ</span></h2>
+        <div class="r"><span class="l">פרטים יפורסמו בנפרד</span><span class="t">&nbsp;</span></div>
+        </div>
+        <div class="card gold">
+        <h2><span>ליל הושענא רבה</span><span class="when"></span></h2>
+        <div class="date">כ״א בתשרי</div>
+        <div class="r"><span class="l">תחילת הלימוד</span><span class="t">22:30</span></div>
+        </div>
+        <div class="card crimson">
+        <h2><span>שמחת תורה</span><span class="when">שבת קודש</span></h2>
+        <div class="date">כ״ב בתשרי · 3.10.26</div>
+        <div class="cols"><i></i><span>מניין נץ</span><span>מניין רגיל</span></div>
+        <div class="r"><span class="l">מנחה, קבלת שבת וערבית</span><span class="t netz">&nbsp;</span><span class="t">18:00</span></div>
+        <div class="r"><span class="l">שחרית · קרבנות</span><span class="t netz">05:35</span><span class="t">07:00</span></div>
+        <div class="r"><span class="l">שיעור</span><span class="t netz">&nbsp;</span><span class="t">16:15</span></div>
+        <div class="r"><span class="l">מנחה וסעודה שלישית</span><span class="t netz">&nbsp;</span><span class="t">17:15</span></div>
+        <div class="r"><span class="l">ערבית</span><span class="t netz">&nbsp;</span><span class="t">18:45</span></div>
+        </div>
+      </div>
+      <div class="foot">הזמנים לירושלים · גמר חתימה טובה</div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  document.getElementById('btnPrint').addEventListener('click', function(){ fit(); window.print(); });
+  function fit(){
+    var box=document.querySelector('.content'), inner=document.getElementById('fit');
+    inner.style.transform='none';
+    var s=Math.min(1, box.clientHeight/inner.scrollHeight);
+    inner.style.transform='scale('+s+')';
+  }
+  window.addEventListener('resize', fit);
+  window.addEventListener('beforeprint', fit);
+  document.addEventListener('input', fit);
+  fit();
+  if(document.fonts) document.fonts.ready.then(fit);
+})();
+</script>
+</body>
+</html>
