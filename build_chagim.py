@@ -57,6 +57,27 @@ PAGES = [
             ('נעילה','','18:00'),('צאת החג וסיום הצום','','19:12')]},
   ]},
  {
+  'file': 'chagim-home.html', 'cols': 1, 'accent': 'noraim', 'png': 'loach-noraim-bait', 'big': True,
+  'pad': {'padt':'10mm','padb':'9mm','padx':'13mm'},
+  'title': 'ימים נוראים · לבית',
+  'sub': '',
+  'foot': 'כתיבה וחתימה טובה',
+  'note': 'מניין הנץ · ראש השנה 05:35 בגן הילדים, רח׳ יצחק ניסים 102 · שבת שובה 05:25',
+  'days': [
+   {'name':'ראש השנה','day':'שישי–ראשון · 11–13.9','hl':True,
+    'rows':[('הדלקת נרות · ערב החג','','18:15'),('שחרית · שני הימים','','07:00'),
+            ('תקיעת שופר · יום ב׳, משוער','','10:00'),('מנחה','','18:00'),
+            ('תשליך · יום א׳','','18:30'),('הדלקת נרות ליל ב׳ · מאש קיימת','','19:23'),
+            ('צאת החג · מוצאי יום ב׳','','19:22')]},
+   {'name':'שבת שובה','day':'18–19.9',
+    'rows':[('מנחה וקבלת שבת','','18:24'),('שחרית','','07:30'),
+            ('מנחה וסעודה שלישית','','17:30'),('צאת השבת','','19:15')]},
+   {'name':'יום הכיפורים','day':'ראשון–שני · 20–21.9','hl':True,
+    'rows':[('מנחה מוקדמת · ערב יו״כ','','13:00'),('לך א‑לי תשוקתי','','18:10'),
+            ('שחרית','','07:00'),('מנחה','','16:00'),('נעילה','','18:00'),
+            ('צאת הצום','','19:12')]},
+  ]},
+ {
   'file': 'chagim-sukkot.html', 'cols': 1, 'accent': 'sukkot', 'png': 'loach-sukkot',
   'pad': {'padt':'11mm','padb':'10mm','padx':'15mm'},
   'title': 'לוח זמנים לחגי הסוכות',
@@ -239,6 +260,16 @@ CSS = """
   .grid.one .caps span{width:31mm;font-size:3.2mm}
   .grid.one .sky{font-size:3.6mm}
   .grid.one .day{margin-bottom:4.2mm}
+  .grid.one.big .dh .nm{font-size:7.6mm}
+  .grid.one.big .dh .dt{font-size:4.6mm}
+  .grid.one.big .caps{font-size:3.8mm}
+  .grid.one.big .caps span{width:30mm}
+  .grid.one.big .r{font-size:6mm;padding:1.1mm 0;line-height:1.2}
+  .grid.one.big .r .t{min-width:30mm;font-size:6.4mm}
+  .grid.one.big .r .t.netz{font-size:5.6mm}
+  .grid.one.big .lsub{font-size:4.6mm}
+  .grid.one.big .day{margin-bottom:6mm}
+  .grid.one.big .dh{padding-bottom:1.4mm;margin-bottom:2mm}
   .grid.one .caps{font-size:3.2mm}
   .grid.one .dh .dt{font-size:3.9mm}
 
@@ -337,6 +368,7 @@ TPL = """<!DOCTYPE html>
       <div class="grid{gridcls}">
         {days}
       </div>
+      <div class="pgnote">{note}</div>
       <div class="foot">{foot}<small>הזמנים לירושלים</small></div>
     </div>
   </div>
@@ -370,8 +402,8 @@ for pg in PAGES:
     pal = PALETTE[pg['accent']]
     days = '\n        '.join(day_html(d) for d in pg['days'])
     html = TPL.format(title=pg['title'], year=YEAR, sub=pg['sub'], css=CSS, days=days,
-                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, pngname=pg['png'], deco=motif_layer(pg['accent']),
-                      gridcls=' one' if pg.get('cols',2)==1 else '',
+                      org=ORG, addr=ADDR, foot=pg['foot'], frame=FRAME, pngname=pg['png'], note=pg.get('note',''), deco=motif_layer(pg['accent']),
+                      gridcls=(' one' + (' big' if pg.get('big') else '')) if pg.get('cols',2)==1 else '',
                       **dict(pal, **pg.get('pad', {'padt':'17mm','padb':'15mm','padx':'17mm'})))
     with io.open(os.path.join(here, pg['file']), 'w', encoding='utf-8') as f:
         f.write(html)

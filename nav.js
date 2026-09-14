@@ -4,6 +4,7 @@
     {f:'index.html',               t:'לוח השבוע'},
     {f:'shabbat-image.html',       t:'שבת לוואטסאפ'},
     {f:'chagim-rosh-hashana.html', t:'ימים נוראים'},
+    {f:'chagim-home.html',          t:'ימים נוראים · לבית'},
     {f:'chagim-sukkot.html',       t:'חגי הסוכות'}
   ];
 
